@@ -28,6 +28,13 @@ client.on('message', message => {
     if (command === 'bonjour' || command === 'ping') {
         client.commands.get('ping').execute(message, args);
     }
+    if (command === 'sound') {
+        client.commands.get('sound').execute(message, args);
+    }
+    if (command === 'leave') {
+        client.leaveVoiceChannel(message.member.voiceState.channelID)
+        //client.commands.get('leave').execute(message, args);
+    }   
 });
 
 client.login(Credentials.token);
