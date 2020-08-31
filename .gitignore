@@ -104,5 +104,6 @@ dist
 .tern-port
 
 # Other files
+soundboard
 token*
 credentials*
