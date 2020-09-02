@@ -9,7 +9,7 @@ module.exports = {
                 console.log(`soundboard/${args}.mp3`);
             }).catch((error) => {
                 console.log(error);
-                message.channel.send(err);
+                message.channel.send(error);
             });
     }
 }
