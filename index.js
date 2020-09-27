@@ -1,7 +1,12 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const Config = require('./config/config.json');
-const Credentials = require('./config/credentials.json');
+try {
+    var Credentials = require('./config/credentials.json');
+} catch (err) {
+    if (err.code != 'MODULE_NOT_FOUND')
+        throw err;
+}
 
 const prefix = Config.prefix;
 
@@ -21,6 +26,7 @@ client.once('ready', () => {
 
 client.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
+    console.log(message.content);
 
     var args = message.content.slice(prefix.length).split(/ +/);
     var command = args.shift().toLowerCase();
@@ -34,7 +40,7 @@ client.on('message', message => {
     if (command === 'leave') {
         client.leaveVoiceChannel(message.member.voiceState.channelID)
         //client.commands.get('leave').execute(message, args);
-    }   
+    }
 });
 
-client.login(Credentials.token);
+client.login(process.env.BOT_TOKEN || Credentials.token);
