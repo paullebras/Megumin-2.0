@@ -26,7 +26,7 @@ client.once('ready', () => {
 
 client.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
-    console.log(message.content);
+    console.log(message.author.username + ' : ' + message.content);
 
     var args = message.content.slice(prefix.length).split(/ +/);
     var command = args.shift().toLowerCase();
