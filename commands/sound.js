@@ -3,14 +3,14 @@ module.exports = {
     description: 'this is the soundboard command.',
     execute(message, args) {
         try {
-            const channel = message.member.voice.channel;
-            if (channel == undefined) {
+            const voiceChannel = message.member.voice.channel;
+            if (voiceChannel == undefined) {
                 err = 'Désolée, tu dois être dans un channel vocal.';
                 console.log(err);
                 message.channel.send(err);
                 return
             }
-            const dispatcher = channel.join().then((connection) => {
+            const dispatcher = voiceChannel.join().then((connection) => {
                 connection.play(`soundboard/${args}.mp3`);
             }).catch((err) => {
                 console.log(String(err));
