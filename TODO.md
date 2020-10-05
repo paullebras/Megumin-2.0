@@ -18,3 +18,15 @@ si le bot est dans un channel vocal, il accepte d'être appelé sans que le user
 switch pour les commandes
 
 apprendre à linker des channels
+
+upload mp3 via front page
+
+play youtube
+play twitch
+play anisson
+
+set prefix
+
+clear queue when leave channel ?
+
+add message if already in voice channel when join is called
