@@ -47,6 +47,9 @@ client.on('message', message => {
         case 'leave':
             client.commands.get('leave').execute(message, args);
             break;
+        case 'play':
+            client.commands.get('play').execute(message, args);
+            break;
         default:
             msg = "Désolée, je ne sais pas encore faire ça.\nSi c'est important, tu peux en faire la demande dans le salon #Megumin-Request.";
             console.log(msg);
@@ -56,3 +59,5 @@ client.on('message', message => {
 });
 
 client.login(process.env.BOT_TOKEN || Credentials.token);
+
+process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
