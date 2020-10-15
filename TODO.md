@@ -39,3 +39,5 @@ set playing + prefix
 
 music:
     pause / resume / stop / queue
+
+spam command: --spam yacine
