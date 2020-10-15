@@ -42,7 +42,10 @@ client.on('message', message => {
             client.commands.get('join').execute(message, args);
             break;
         case 'sound':
-            client.commands.get('sound').execute(message, args);
+            client.commands.get('sound').execute(message, args, 'sound');
+            break;
+        case 'music':
+            client.commands.get('sound').execute(message, args, 'music');
             break;
         case 'leave':
             client.commands.get('leave').execute(message, args);
