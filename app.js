@@ -35,21 +35,25 @@ client.on('message', message => {
     var command = args.shift().toLowerCase();
 
     switch (command) {
+        case 'join':
+            client.commands.get('join').execute(message, args);
+            break;
+        case 'leave':
+            client.commands.get('leave').execute(message, client);
+            break;
+        case 'pause':
+            client.commands.get('pause').execute(message, args, client);
+            break;
         case 'ping':
             client.commands.get('ping').execute(message, args);
             break;
-        case 'join':
-            client.commands.get('join').execute(message, args);
+        case 'play':
+            client.commands.get('play').execute(message, args, client);
             break;
         case 'sound':
             client.commands.get('sound').execute(message, args);
             break;
-        case 'leave':
-            client.commands.get('leave').execute(message, args);
-            break;
-        case 'play':
-            client.commands.get('play').execute(message, args);
-            break;
+
         default:
             msg = "Désolée, je ne sais pas encore faire ça.\nSi c'est important, tu peux en faire la demande dans le salon #Megumin-Request.";
             console.log(msg);
