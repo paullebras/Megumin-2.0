@@ -1,7 +1,7 @@
 module.exports = {
     name: 'sound',
     description: 'this is the soundboard command.',
-    execute(message, args) {
+    execute(message, args, type) {
         try {
             const voiceChannel = message.member.voice.channel;
             if (voiceChannel == undefined) {
@@ -11,7 +11,10 @@ module.exports = {
                 return
             }
             const dispatcher = voiceChannel.join().then((connection) => {
-                connection.play(`soundboard/${args}.mp3`);
+                if (type == 'sound')
+                    connection.play(`soundboard/${args}.mp3`);
+                if (type == 'music')
+                    connection.play(`music/${args}.m3u`);
             }).catch((err) => {
                 console.log(String(err));
                 message.channel.send(String(err));
@@ -22,3 +25,4 @@ module.exports = {
         }
     }
 }
+
