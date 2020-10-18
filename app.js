@@ -24,6 +24,13 @@ client.once('ready', () => {
     console.log('Megumin-2.0 is now online!');
 });
 
+var VoiceControl = {
+    "isPlaying": false,
+    "queueIndex": 0,
+    "queue": [],
+    "dispatcher": null
+};
+
 client.on('message', message => {
     //const guild = client.guilds.fetch(process.env.SERVER_ID || Credentials.server_id);
 
@@ -33,6 +40,7 @@ client.on('message', message => {
 
     var args = message.content.slice(prefix.length).split(/ +/);
     var command = args.shift().toLowerCase();
+
 
     switch (command) {
         case 'join':
@@ -44,11 +52,20 @@ client.on('message', message => {
         case 'music':
             client.commands.get('sound').execute(message, args, 'music');
             break;
+        case 'pause':
+            client.commands.get('pause').execute(VoiceControl);
+            break;
         case 'ping':
             client.commands.get('ping').execute(message, args);
             break;
         case 'play':
-            client.commands.get('play').execute(message, args, client);
+            client.commands.get('play').execute(message, args, client, VoiceControl);
+            break;
+        case 'resume':
+            client.commands.get('resume').execute(VoiceControl);
+            break;
+        case 'skip':
+            client.commands.get('skip').execute(message, client, VoiceControl);
             break;
         case 'sound':
             client.commands.get('sound').execute(message, args, 'sound');
