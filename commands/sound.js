@@ -14,7 +14,7 @@ module.exports = {
                 if (type == 'sound')
                     connection.play(`soundboard/${args}.mp3`);
                 if (type == 'music')
-                    connection.play(`music/${args}.m3u`);
+                    connection.play(`music/${args}.mp3`);
             }).catch((err) => {
                 console.log(String(err));
                 message.channel.send(String(err));
@@ -25,4 +25,3 @@ module.exports = {
         }
     }
 }
-

@@ -4,6 +4,9 @@ leave command
 msg en cas d'erreur
 si le bot est dans un channel vocal, il accepte d'être appelé sans que le user soit également dans un voice channel
 switch pour les commandes
+play youtube
+play:
+    pause / resume
 
 **__TODO__**
 
@@ -16,7 +19,7 @@ soundlist
 help => daga kotowaru
 
 check pourquoi elle déco vite quand elle join sans parler
-=> setup deco timer
+    => setup deco timer
 
 ajouter des checks avant d'appeler les fonctions (nombres d'arguments / types d'argument attendu ...);
 
@@ -24,7 +27,6 @@ apprendre à linker des channels
 
 upload mp3 via front page
 
-play youtube
 play twitch
 play anisson
 
@@ -37,7 +39,13 @@ add message if bot not in bot channel when *leave* is calle
 
 set playing + prefix
 
-music:
-    pause / resume / stop / queue
+play:
+    stop / queue
 
 spam command: --spam yacine
+
+history (all youtube url queued);
+
+check youtube 10 hours video
+
+jalousie quand play avec autre bot
