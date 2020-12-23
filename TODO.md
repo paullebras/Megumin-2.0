@@ -64,6 +64,8 @@ skip current song
 
 what happens to dispatcher and connection when megumin is force disconnected via right click => disconnect
 
+replace credentials.json + config.json files with a .env file (see tutorial in chrome bookmarks)
+
 VoiceControl.queue[VoiceControl.queueIndex] = **play
 Error: No video id found: **play
 Uncaught Promise Rejection ReferenceError: message is not defined
