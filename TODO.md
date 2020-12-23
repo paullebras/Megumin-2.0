@@ -2,7 +2,7 @@
 
 leave command
 msg en cas d'erreur
-si le bot est dans un channel vocal, il accepte d'être appelé sans que le user soit également dans un voice channel
+si le bot est dans un canal vocal, il accepte d'être appelé sans que le user soit également dans un voice channel
 switch pour les commandes
 play youtube
 play:
@@ -49,3 +49,23 @@ history (all youtube url queued);
 check youtube 10 hours video
 
 jalousie quand play avec autre bot
+
+fichier utils avec fonctions
+    => log (cons.log + message.write)
+    => checkVoice
+
+clear queue
+
+create a queue which can be cleared and a forever lasting history which can be played
+
+debug queue
+
+skip current song
+
+what happens to dispatcher and connection when megumin is force disconnected via right click => disconnect
+
+VoiceControl.queue[VoiceControl.queueIndex] = **play
+Error: No video id found: **play
+Uncaught Promise Rejection ReferenceError: message is not defined
+    at D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\commands\play.js:55:21
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)

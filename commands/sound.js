@@ -1,27 +1,22 @@
+const voiceUtils = require('../utils/voiceUtils.js');
+const Config = require('../config/config.json');
+
 module.exports = {
     name: 'sound',
     description: 'this is the soundboard command.',
-    execute(message, args, type) {
+    async execute(message, args, type, client, VoiceControl) {
         try {
-            const voiceChannel = message.member.voice.channel;
-            if (voiceChannel == undefined) {
-                err = 'Désolée, tu dois être dans un channel vocal.';
-                console.log(err);
-                message.channel.send(err);
-                return
-            }
-            const dispatcher = voiceChannel.join().then((connection) => {
-                if (type == 'sound')
-                    connection.play(`soundboard/${args}.mp3`);
-                if (type == 'music')
-                    connection.play(`music/${args}.mp3`);
-            }).catch((err) => {
-                console.log(String(err));
-                message.channel.send(String(err));
-            });
-        } catch (err) {
-            console.error(String(err));
-            message.channel.send(String(err));
+            const channelToJoin = message.member.voice.channel;
+            const currentChannel = client.voice.connections.get(Config.server_id);
+
+            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            if (type == 'sound')
+                VoiceControl.dispatcher = VoiceControl.connection.play(`soundboard/${args}.mp3`);
+            if (type == 'music')
+                VoiceControl.dispatcher = VoiceControl.connection.play(`music/${args}.mp3`);
+        } catch (error) {
+            console.error(String(error));
+            message.channel.send(String(error));
         }
     }
 }

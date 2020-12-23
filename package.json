@@ -20,12 +20,13 @@
   },
   "homepage": "https://github.com/Sanguor/Megumin-2.0#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.3.2",
-    "discord.js": "^12.3.1",
+    "@discordjs/opus": "^0.3.3",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "ffmpeg-static": "^4.2.7",
     "node-opus": "^0.3.3",
-    "nodemon": "^2.0.4",
-    "ytdl-core": "^3.3.0"
+    "nodemon": "^2.0.6",
+    "ytdl-core": "^4.2.1"
   }
 }
