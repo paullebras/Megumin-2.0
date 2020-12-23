@@ -28,7 +28,8 @@ var VoiceControl = {
     "isPlaying": false,
     "queueIndex": 0,
     "queue": [],
-    "dispatcher": null
+    "dispatcher": null,
+    "connection": null // maybe connection and dispatcher can be merged since dispatcher = connection.play
 };
 
 client.on('message', message => {
@@ -44,13 +45,13 @@ client.on('message', message => {
 
     switch (command) {
         case 'join':
-            client.commands.get('join').execute(message, args);
+            client.commands.get('join').execute(message, args, client, VoiceControl);
             break;
         case 'leave':
-            client.commands.get('leave').execute(message, client);
+            client.commands.get('leave').execute(message, client, VoiceControl);
             break;
         case 'music':
-            client.commands.get('sound').execute(message, args, 'music');
+            client.commands.get('sound').execute(message, args, 'music', client, VoiceControl);
             break;
         case 'pause':
             client.commands.get('pause').execute(VoiceControl);
@@ -68,7 +69,7 @@ client.on('message', message => {
             client.commands.get('skip').execute(message, client, VoiceControl);
             break;
         case 'sound':
-            client.commands.get('sound').execute(message, args, 'sound');
+            client.commands.get('sound').execute(message, args, 'sound', client, VoiceControl);
             break;
 
         default:
