@@ -71,6 +71,9 @@ client.on('message', message => {
         case 'sound':
             client.commands.get('sound').execute(message, args, 'sound', client, VoiceControl);
             break;
+        case 'stop':
+            client.commands.get('stop').execute(VoiceControl);
+            break;
 
         default:
             msg = "Désolée, je ne sais pas encore faire ça.\nSi c'est important, tu peux en faire la demande dans le salon #Megumin-Request.";
