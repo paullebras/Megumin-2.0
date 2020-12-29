@@ -3,6 +3,11 @@ module.exports = {
     description: 'this is the resume command.',
 
     execute(VoiceControl) {
-        VoiceControl.dispatcher.resume();
+        try {
+            VoiceControl.dispatcher.resume();
+        } catch (error) {
+            console.log(error);
+            message.channel.send(error);
+        }
     }
 }
