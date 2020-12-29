@@ -1,3 +1,95 @@
+**__MAIN FEATURES__**
+
+cas "--sound" sans rien après
+
+soundlist
+
+play twitch / beepbox
+
+set prefix
+
+play:
+    stop / queue / clear queue / history (all things that have ever been played);
+
+help
+
+**__SECONDARY FEATURES__**
+
+delete the last X messages + search by string and delete ?
+
+new dealabs genshin
+
+check youtube 10 hours video
+
+change current volume / change default volume (for anison ?)
+
+**__FEATURES IMPROVMENTS__**
+
+queue :
+=> far too laggy
+=> call ytdl twice
+=> improve queue design (use embed)
+=> may need to clear queue automatically with certain commands or at at certain point (leave ?, stop ?, when leaving channel ?, ...)
+
+play : ajouter un texte quand une url n'est pas jouée mais ajoutée à la queue
+
+sound : majuscules sur les mp3 (sur la commande mais aussi sur le nom du fichier)
+
+join : add message if already in voice channel when *join* is called
+
+**__BUG FIXES__**
+START ERROR
+VoiceControl.queue[VoiceControl.queueIndex] = **play
+Error: No video id found: **play
+Uncaught Promise Rejection ReferenceError: message is not defined
+    at D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\commands\play.js:55:21
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+END ERROR
+
+what happens to dispatcher and connection when megumin is force disconnected via right click => disconnect
+
+START ERROR - pause if never played
+D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\commands\pause.js:6
+        VoiceControl.dispatcher.pause();
+                                ^
+TypeError: Cannot read property 'pause' of null
+    at Object.execute (D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\commands\pause.js:6:33)
+    at Client.<anonymous> (D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\app.js:57:42)
+    at Client.emit (events.js:314:20)
+    at MessageCreateAction.handle (D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\node_modules\discord.js\src\client\actions\MessageCreate.js:31:14)
+    at Object.module.exports [as MESSAGE_CREATE] (D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\node_modules\discord.js\src\client\websocket\handlers\MESSAGE_CREATE.js:4:32)
+    at WebSocketManager.handlePacket (D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\node_modules\discord.js\src\client\websocket\WebSocketManager.js:384:31)
+    at WebSocketShard.onPacket (D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\node_modules\discord.js\src\client\websocket\WebSocketShard.js:444:22)
+    at WebSocketShard.onMessage (D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\node_modules\discord.js\src\client\websocket\WebSocketShard.js:301:10)
+    at WebSocket.onMessage (D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\node_modules\ws\lib\event-target.js:132:16)
+    at WebSocket.emit (events.js:314:20)
+[nodemon] app crashed - waiting for file changes before starting...
+END ERROR
+
+**__CODE IMPROVMENTS__**
+
+replace credentials.json + config.json files with a .env file (see tutorial in chrome bookmarks)
+
+check pourquoi elle déco vite quand elle join sans parler
+    => setup deco timer
+
+ajouter des checks avant d'appeler les fonctions (nombres d'arguments / types d'argument attendu ...);
+
+apprendre à linker des channels
+
+fichier utils avec fonctions
+=> log (cons.log + message.write)
+
+**__DUMB  FEATURES__**
+
+spam command: --spam yacine
+jalousie quand play avec autre bot
+help => daga kotowaru
+
+**__FRONT__**
+
+upload mp3 via front page
+
 **__DONE__**
 
 leave command
@@ -7,67 +99,9 @@ switch pour les commandes
 play youtube
 play:
     pause / resume
-
-**__TODO__**
-
-majuscules sur les mp3 (sur la commande mais aussi sur le nom du fichier)
-
-cas "--sound" sans rien après
-
-soundlist
-
-help => daga kotowaru
-
-check pourquoi elle déco vite quand elle join sans parler
-    => setup deco timer
-
-ajouter des checks avant d'appeler les fonctions (nombres d'arguments / types d'argument attendu ...);
-
-apprendre à linker des channels
-
-upload mp3 via front page
-
-play twitch
-play anisson
-
-set prefix
-
-clear queue when leave channel ?
-
-add message if already in voice channel when *join* is called
-add message if bot not in bot channel when *leave* is calle
-
-set playing + prefix
-
-play:
-    stop / queue
-
-spam command: --spam yacine
-
-history (all youtube url queued);
-
-check youtube 10 hours video
-
-jalousie quand play avec autre bot
-
+add message if bot not in bot channel when *leave* is called
 fichier utils avec fonctions
-    => log (cons.log + message.write)
     => checkVoice
-
-clear queue
-
-create a queue which can be cleared and a forever lasting history which can be played
-
 debug queue
-
 skip current song
-
-what happens to dispatcher and connection when megumin is force disconnected via right click => disconnect
-
-replace credentials.json + config.json files with a .env file (see tutorial in chrome bookmarks)
-
-VoiceControl.queue[VoiceControl.queueIndex] = **play
-Error: No video id found: **play
-Uncaught Promise Rejection ReferenceError: message is not defined
-    at D:\Documents\La Voie des Philosophes\6 - Geekeries\Megumin-2.0\commands\play.js:55:21
-    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+play anisson

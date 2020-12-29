@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'pause',
+    name: 'stop',
     description: 'this is the stop command.',
 
     execute(VoiceControl) {
