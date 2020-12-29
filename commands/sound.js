@@ -15,8 +15,8 @@ module.exports = {
             if (type == 'music')
                 VoiceControl.dispatcher = VoiceControl.connection.play(`music/${args}.mp3`);
         } catch (error) {
-            console.error(String(error));
-            message.channel.send(String(error));
+            console.error(error);
+            message.channel.send(error);
         }
     }
 }

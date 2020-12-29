@@ -28,6 +28,7 @@ var VoiceControl = {
     "isPlaying": false,
     "queueIndex": 0,
     "queue": [],
+    "frontQueue": [],
     "dispatcher": null,
     "connection": null // maybe connection and dispatcher can be merged since dispatcher = connection.play
 };
@@ -44,6 +45,9 @@ client.on('message', message => {
 
 
     switch (command) {
+        case 'anison':
+            client.commands.get('anison').execute(message, args, client, VoiceControl);
+            break;
         case 'join':
             client.commands.get('join').execute(message, args, client, VoiceControl);
             break;
@@ -61,6 +65,9 @@ client.on('message', message => {
             break;
         case 'play':
             client.commands.get('play').execute(message, args, client, VoiceControl);
+            break;
+        case 'queue':
+            client.commands.get('queue').execute(message, args, client, VoiceControl);
             break;
         case 'resume':
             client.commands.get('resume').execute(VoiceControl);
