@@ -11,49 +11,34 @@ module.exports = {
             const url = args[0];
             const channelToJoin = message.member.voice.channel;
             const currentChannel = client.voice.connections.get(Config.server_id);
-            // console.log('client.voice.connections =', client.voice.connections);
 
             await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((err) => {
                 throw err;
             })
             VoiceControl.queue.push(url);
-            if (VoiceControl.isPlaying == false) {
-                await client.commands.get('play').play(VoiceControl);
-                VoiceControl.queueIndex += 1;
+            if (url.includes("http://") || url.includes("https://")) {
+                if (url.includes("youtube") || url.includes("youtu.be")) {
+                    let readableStream = ytdl(url);
+                    readableStream
+                        .on('info', (info, format) => {
+                            VoiceControl.frontQueue.push(info.videoDetails.title);
+                            // let fileName = info.title.replace(/[^a-z0-9\-]/gi, '_');
+                            // let container = format.container;
+                            // let writeableSteam = fs.createWriteStream(`${fileName}.${container}`);
+                            // readableStream.pipe(writeableSteam);
+                        })
+                        .on('error', (error, format) => {
+                            console.log(error.message);
+                            message.channel.send(error.message);
+                        });
+                    if (VoiceControl.isPlaying == false) {
+                        voiceUtils.playYoutube(VoiceControl, message);
+                    }
+                }
             }
-        } catch (err) {
-            console.log(err);
-            message.channel.send(err);
+        } catch (error) {
+            console.log(error);
+            message.channel.send(error);
         }
-    },
-
-
-    play(VoiceControl) {
-        return new Promise((resolve, reject) => {
-            try {
-                console.log('ca');
-                console.log('cb');
-                console.log('VoiceControl.queueIndex =', VoiceControl.queueIndex);
-                console.log('VoiceControl.queue[VoiceControl.queueIndex] =', VoiceControl.queue[VoiceControl.queueIndex]);
-                VoiceControl.dispatcher = VoiceControl.connection.play(ytdl(VoiceControl.queue[VoiceControl.queueIndex], { filter: 'audioonly' }))
-                    .on('start', () => {
-                        console.log('cc');
-                        // console.log('VoiceControl =', VoiceControl);
-                        console.log('cc2');
-                        VoiceControl.isPlaying = true;
-                    })
-                    .on('finish', () => {
-                        VoiceControl.isPlaying = false;
-                    })
-                    .on('error', (err) => {
-                        console.log(String(err));
-                        message.channel.send(String(err));
-                        reject();
-                    })
-                resolve();
-            } catch (err) {
-                reject(err);
-            }
-        })
     }
 }

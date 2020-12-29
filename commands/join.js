@@ -15,7 +15,7 @@ module.exports = {
             }
             if (channelToJoin != undefined) {
                 voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
-                    throw ("Désolée, Sanguor ne sait pas coder");
+                    throw (error);
                 })
             } else {
                 message.channel.send(`Désolée, le canal vocal **${args[0]}** n'existe pas.`);
