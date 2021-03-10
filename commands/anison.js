@@ -13,7 +13,7 @@ module.exports = {
 
             await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
 
-            VoiceControl.dispatcher = VoiceControl.connection.play('https://pool.anison.fm/AniSonFM(320)', { volume: 0.07 });
+            VoiceControl.dispatcher = VoiceControl.connection.play('https://pool.anison.fm/AniSonFM(320)', { volume: 0.2 });
 
         } catch (error) {
             console.error(error);
