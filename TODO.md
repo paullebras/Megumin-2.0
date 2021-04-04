@@ -11,7 +11,13 @@ set prefix
 play:
     stop / queue / clear queue / history (all things that have ever been played);
 
+soundlist
+
 help
+
+set prefix
+
+play twitch / beepbox
 
 **__SECONDARY FEATURES__**
 
@@ -31,9 +37,13 @@ queue :
 => improve queue design (use embed)
 => may need to clear queue automatically with certain commands or at at certain point (leave ?, stop ?, when leaving channel ?, ...)
 
+anison current track, playlist and next songs, anison history too ?
+
 play : ajouter un texte quand une url n'est pas jouée mais ajoutée à la queue
 
-sound : majuscules sur les mp3 (sur la commande mais aussi sur le nom du fichier)
+sound :
+=> majuscules sur les mp3 (sur la commande mais aussi sur le nom du fichier)
+=> cas "--sound" sans rien après
 
 join : add message if already in voice channel when *join* is called
 
