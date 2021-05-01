@@ -19,6 +19,7 @@ set prefix
 
 play twitch / beepbox
 
+
 **__SECONDARY FEATURES__**
 
 delete the last X messages + search by string and delete ?
@@ -28,6 +29,7 @@ new dealabs genshin
 check youtube 10 hours video
 
 change current volume / change default volume (for anison ?)
+
 
 **__FEATURES IMPROVMENTS__**
 
@@ -46,6 +48,7 @@ sound :
 => cas "--sound" sans rien après
 
 join : add message if already in voice channel when *join* is called
+
 
 **__BUG FIXES__**
 START ERROR
@@ -99,7 +102,7 @@ TypeError: Cannot read property 'execute' of undefined
     at Receiver.receiverOnMessage (C:\Users\Paul Le Bras\Documents\Projets persos\Megumin-2.0\node_modules\ws\lib\websocket.js:825:20)
 END ERROR STOP WITH OTHER COMMANDS THAN PLAY
 
-
+START ERROR
 2020-09-27T16:54:55.169950+00:00 app[worker.1]: --sound jojo_OhNo
 2020-09-27T16:54:55.172502+00:00 app[worker.1]: /app/commands/sound.js:6
 2020-09-27T16:54:55.172503+00:00 app[worker.1]: const dispatcher = channel.join()
@@ -138,6 +141,19 @@ END ERROR STOP WITH OTHER COMMANDS THAN PLAY
 2020-09-27T16:55:10.439551+00:00 app[worker.1]: at WebSocket.onMessage (/app/node_modules/ws/lib/event-target.js:125:16)2020-09-27T16:55:10.439551+00:00 app[worker.1]: at WebSocket.emit (events.js:315:20)
 2020-09-27T16:55:10.493674+00:00 heroku[worker.1]: Process exited with status 1
 2020-09-27T16:55:10.528171+00:00 heroku[worker.1]: State changed from up to crashed
+END ERROR
+
+
+START ERROR LEAVE WITH ANISON
+Sanguor — Today at 16:09
+--anison
+--leave
+MeguTest --
+BOT
+ — Today at 16:09
+Désolée, je ne suis pas dans un canal vocal.
+END ERROR LEAVE WITH ANISON
+
 
 **__CODE IMPROVMENTS__**
 
