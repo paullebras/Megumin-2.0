@@ -19,6 +19,7 @@ set prefix
 
 play twitch / beepbox
 
+
 **__SECONDARY FEATURES__**
 
 delete the last X messages + search by string and delete ?
@@ -28,6 +29,7 @@ new dealabs genshin
 check youtube 10 hours video
 
 change current volume / change default volume (for anison ?)
+
 
 **__FEATURES IMPROVMENTS__**
 
@@ -46,6 +48,7 @@ sound :
 => cas "--sound" sans rien après
 
 join : add message if already in voice channel when *join* is called
+
 
 **__BUG FIXES__**
 START ERROR
@@ -98,6 +101,17 @@ TypeError: Cannot read property 'execute' of undefined
     at WebSocket.emit (events.js:315:20)
     at Receiver.receiverOnMessage (C:\Users\Paul Le Bras\Documents\Projets persos\Megumin-2.0\node_modules\ws\lib\websocket.js:825:20)
 END ERROR STOP WITH OTHER COMMANDS THAN PLAY
+
+START ERROR LEAVE WITH ANISON
+Sanguor — Today at 16:09
+--anison
+--leave
+MeguTest --
+BOT
+ — Today at 16:09
+Désolée, je ne suis pas dans un canal vocal.
+END ERROR LEAVE WITH ANISON
+
 
 **__CODE IMPROVMENTS__**
 

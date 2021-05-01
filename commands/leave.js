@@ -1,11 +1,11 @@
-const Config = require('../config/config.json');
+require('dotenv').config();
 
 module.exports = {
     name: 'leave',
     description: 'this command makes Megumin leave the current voice channel.',
     execute(message, client, VoiceControl) {
-        if (client.voice.connections.get(Config.server_id)) {
-            const voiceChannel = client.voice.connections.get(Config.server_id).channel;
+        if (client.voice.connections.get(process.env.SERVER_ID)) {
+            const voiceChannel = client.voice.connections.get(process.env.SERVER_ID).channel;
             voiceChannel.leave();
             VoiceControl.connection = null;
             return;
