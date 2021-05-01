@@ -1,18 +1,10 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const Config = require('./config/config.json');
-try {
-    var Credentials = require('./config/credentials.json');
-} catch (err) {
-    if (err.code != 'MODULE_NOT_FOUND')
-        throw err;
-}
+require('dotenv').config();
 
-const prefix = Config.prefix;
-
+const prefix = process.env.PREFIX;
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -34,10 +26,12 @@ var VoiceControl = {
 };
 
 client.on('message', message => {
-    //const guild = client.guilds.fetch(process.env.SERVER_ID || Credentials.server_id);
+    //const guild = client.guilds.fetch(process.env.SERVER_ID || credentials.server_id);
 
-    if (!message.content.startsWith(prefix) || message.author.bot)
+    if (!message.content.startsWith(prefix) || message.author.bot) {
         return;
+    }
+
     console.log(message.author.username + ' : ' + message.content);
 
     var args = message.content.slice(prefix.length).split(/ +/);
@@ -90,6 +84,6 @@ client.on('message', message => {
     }
 });
 
-client.login(process.env.BOT_TOKEN || Credentials.token);
+client.login(process.env.DISCORD_TOKEN);
 
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));

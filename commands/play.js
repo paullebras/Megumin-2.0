@@ -1,6 +1,6 @@
 const ytdl = require('ytdl-core');
 const voiceUtils = require('../utils/voiceUtils.js');
-const Config = require('../config/config.json');
+require('dotenv').config();
 
 module.exports = {
     name: 'play',
@@ -10,7 +10,7 @@ module.exports = {
         try {
             const url = args[0];
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = client.voice.connections.get(Config.server_id);
+            const currentChannel = client.voice.connections.get(process.env.SERVER_ID);
 
             await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((err) => {
                 throw err;
