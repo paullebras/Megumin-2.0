@@ -1,5 +1,5 @@
 const voiceUtils = require('../utils/voiceUtils.js');
-const Config = require('../config/config.json');
+require('dotenv').config();
 
 module.exports = {
     name: 'join',
@@ -7,7 +7,7 @@ module.exports = {
     execute(message, args, client, VoiceControl) {
         try {
             let channelToJoin;
-            const currentChannel = client.voice.connections.get(Config.server_id);
+            const currentChannel = client.voice.connections.get(process.env.SERVER_ID);
             if (args.length > 0) {
                 channelToJoin = message.guild.channels.cache.find(element => (element.name.includes(args[0])) || element.id.includes(args[0]));
             } else {

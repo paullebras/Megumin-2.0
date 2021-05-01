@@ -1,6 +1,6 @@
 
 const voiceUtils = require('../utils/voiceUtils.js');
-const Config = require('../config/config.json');
+require('dotenv').config();
 
 module.exports = {
     name: 'skip',
@@ -12,7 +12,7 @@ module.exports = {
                 throw ("Désolée, aucune vidéo n'est en cours de lecture.");
             }
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = client.voice.connections.get(Config.server_id);
+            const currentChannel = client.voice.connections.get(process.env.SERVER_ID);
 
             await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((err) => {
                 throw err;

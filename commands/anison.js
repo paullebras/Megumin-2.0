@@ -1,7 +1,5 @@
-const Config = require('../config/config.json');
 const voiceUtils = require('../utils/voiceUtils.js');
-const fetch = require('node-fetch');
-const https = require('https');
+require('dotenv').config();
 
 module.exports = {
     name: 'anison',
@@ -9,7 +7,7 @@ module.exports = {
     async execute(message, args, client, VoiceControl) {
         try {
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = client.voice.connections.get(Config.server_id);
+            const currentChannel = client.voice.connections.get(process.env.SERVER_ID);
 
             await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
 
