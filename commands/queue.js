@@ -12,7 +12,7 @@ module.exports = {
                 for (let index = 0; index < VoiceControl.frontQueue.length; index++) {
                     response.push(VoiceControl.frontQueue[index]);
                 }
-                response[VoiceControl.queueIndex] = '-- ' + response[VoiceControl.queueIndex];
+                response[VoiceControl.queueIndex] = '=> ' + response[VoiceControl.queueIndex];
                 message.channel.send(response);
                 return;
             }
