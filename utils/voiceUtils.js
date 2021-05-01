@@ -19,9 +19,7 @@ module.exports = {
             } catch (error) {
                 reject(error);
             }
-
         })
-
     },
 
     playYoutube: function (VoiceControl, message) {
@@ -40,7 +38,6 @@ module.exports = {
                     // readableStream.pipe(writeableSteam);
                 })
                 .on('start', () => {
-                    VoiceControl.queueIndex += 1;
                     VoiceControl.isPlaying = true;
                 })
                 .on('finish', () => {

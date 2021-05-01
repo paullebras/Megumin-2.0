@@ -42,6 +42,9 @@ client.on('message', message => {
         case 'anison':
             client.commands.get('anison').execute(message, args, client, VoiceControl);
             break;
+        case 'clear':
+            client.commands.get('clear').execute(message, args, client, VoiceControl);
+            break;
         case 'join':
             client.commands.get('join').execute(message, args, client, VoiceControl);
             break;
