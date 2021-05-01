@@ -157,7 +157,7 @@ END ERROR LEAVE WITH ANISON
 
 **__CODE IMPROVMENTS__**
 
-replace credentials.json + config.json files with a .env file (see tutorial in chrome bookmarks)
+
 
 check pourquoi elle déco vite quand elle join sans parler
     => setup deco timer
@@ -181,16 +181,22 @@ upload mp3 via front page
 
 **__DONE__**
 
-leave command
-msg en cas d'erreur
-si le bot est dans un canal vocal, il accepte d'être appelé sans que le user soit également dans un voice channel
-switch pour les commandes
-play youtube
-play:
-    pause / resume
-add message if bot not in bot channel when *leave* is called
-fichier utils avec fonctions
-    => checkVoice
-debug queue
-skip current song
-play anisson
+features:
+    leave command
+    si le bot est dans un canal vocal, il accepte d'être appelé sans que le user soit également dans un voice channel
+    msg en cas d'erreur
+    add message if bot not in bot channel when *leave* is called
+    skip current song
+    play anisson
+
+code enhancing:
+    switch pour les commandes
+    replace credentials.json + config.json files with a .env file (see tutorial in chrome bookmarks)
+    play youtube
+    play:
+        pause / resume
+    fichier utils avec fonctions
+
+debug:
+    queue
+    --leave => Désolée, je ne suis pas dans un canal vocal.
