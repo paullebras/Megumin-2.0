@@ -69,6 +69,9 @@ client.on('message', message => {
         case 'resume':
             client.commands.get('resume').execute(VoiceControl);
             break;
+        case 'savelist':
+            client.commands.get('savelist').execute(message, args, client, VoiceControl);
+            break;
         case 'skip':
             client.commands.get('skip').execute(message, client, VoiceControl);
             break;
