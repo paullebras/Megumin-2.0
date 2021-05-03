@@ -9,7 +9,7 @@ play twitch / beepbox
 set prefix
 
 play:
-    stop / queue / clear queue / history (all things that have ever been played);
+    history (all things that have ever been played);
 
 soundlist
 
@@ -30,6 +30,10 @@ check youtube 10 hours video
 
 change current volume / change default volume (for anison ?)
 
+ask if play playlist before adding tons of videos to the queue
+
+remove a specific element from the queue (with index, last element, last elementS if playlist ?)
+
 
 **__FEATURES IMPROVMENTS__**
 
@@ -41,13 +45,26 @@ queue :
 
 anison current track, playlist and next songs, anison history too ?
 
-play : ajouter un texte quand une url n'est pas jouée mais ajoutée à la queue
+play :
+    ajouter un texte quand une url n'est pas jouée mais ajoutée à la queue
+    nettoyer les fonctions
+    ajouter une fonction qui filtre en fonction de l'url (twitch, youtube, autre...) et appelle la fonction correspondante
 
 sound :
 => majuscules sur les mp3 (sur la commande mais aussi sur le nom du fichier)
 => cas "--sound" sans rien après
 
 join : add message if already in voice channel when *join* is called
+
+savelist :
+    edit date to a better format
+    clean the code, remove callbacks, split between files and functions
+    find a way to handle more than 50 videos
+    remove the file after upload to discord ?
+    filtrer les ; dans le titre pour ne pas créer de confusion avec le séparateur
+    ajouter un index correspondant à la place de la vidéo dans la playlist
+
+
 
 
 **__BUG FIXES__**
@@ -194,7 +211,7 @@ code enhancing:
     replace credentials.json + config.json files with a .env file (see tutorial in chrome bookmarks)
     play youtube
     play:
-        pause / resume
+        stop / pause / resume / queue / clear
     fichier utils avec fonctions
 
 debug:
