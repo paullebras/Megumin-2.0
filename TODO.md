@@ -57,14 +57,13 @@ sound :
 join : add message if already in voice channel when *join* is called
 
 savelist :
+    MAKE IT WORK FROM HEROKU
     edit date to a better format
     clean the code, remove callbacks, split between files and functions
     find a way to handle more than 50 videos
     remove the file after upload to discord ?
     filtrer les ; dans le titre pour ne pas créer de confusion avec le séparateur
     ajouter un index correspondant à la place de la vidéo dans la playlist
-
-
 
 
 **__BUG FIXES__**
