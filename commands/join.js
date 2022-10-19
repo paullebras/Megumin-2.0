@@ -1,28 +1,25 @@
 const voiceUtils = require('../utils/voiceUtils.js');
-require('dotenv').config();
+const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'join',
     description: 'Megumin joins the current or specified (by id or by name) voice channel.',
-    execute(message, args, client, VoiceControl) {
+    execute(message, args, VoiceControl) {
         try {
             let channelToJoin;
-            const currentChannel = client.voice.connections.get(process.env.SERVER_ID);
+            const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
             if (args.length > 0) {
                 channelToJoin = message.guild.channels.cache.find(element => (element.name.includes(args[0])) || element.id.includes(args[0]));
             } else {
                 channelToJoin = message.member.voice.channel;
             }
             if (channelToJoin != undefined) {
-                voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
-                    throw (error);
-                })
+                voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl);
             } else {
                 message.channel.send(`Désolée, le canal vocal **${args[0]}** n'existe pas.`);
             }
         } catch (error) {
-            console.log(error);
-            message.channel.send(error);
+            utils.logError(error, message.channel);
         }
     }
 }

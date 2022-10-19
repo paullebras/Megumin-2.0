@@ -1,10 +1,15 @@
-const fs = require('fs');
-const Discord = require('discord.js');
 require('dotenv').config();
+const fs = require('fs');
+const { Client, Collection, IntentsBitField } = require('discord.js');
+
+const myIntents = new IntentsBitField();
+myIntents.add(IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.GuildVoiceStates);
+
+const client = new Client({ intents: myIntents });
 
 const prefix = process.env.PREFIX;
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
+
+client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -21,11 +26,11 @@ var VoiceControl = {
     "queueIndex": 0,
     "queue": [],
     "frontQueue": [],
-    "dispatcher": null,
-    "connection": null // maybe connection and dispatcher can be merged since dispatcher = connection.play
+    "player": null,
+    "connection": null
 };
 
-client.on('message', message => {
+client.on('messageCreate', message => {
     //const guild = client.guilds.fetch(process.env.SERVER_ID || credentials.server_id);
 
     if (!message.content.startsWith(prefix) || message.author.bot) {
@@ -40,43 +45,43 @@ client.on('message', message => {
 
     switch (command) {
         case 'anison':
-            client.commands.get('anison').execute(message, args, client, VoiceControl);
+            client.commands.get('anison').execute(message, VoiceControl);
             break;
         case 'clear':
-            client.commands.get('clear').execute(message, args, client, VoiceControl);
+            client.commands.get('clear').execute(message, VoiceControl);
             break;
         case 'join':
-            client.commands.get('join').execute(message, args, client, VoiceControl);
+            client.commands.get('join').execute(message, args, VoiceControl);
             break;
         case 'leave':
-            client.commands.get('leave').execute(message, client, VoiceControl);
+            client.commands.get('leave').execute(message, VoiceControl);
             break;
         case 'music':
-            client.commands.get('sound').execute(message, args, 'music', client, VoiceControl);
+            client.commands.get('sound').execute(message, args, 'music', VoiceControl);
             break;
         case 'pause':
             client.commands.get('pause').execute(VoiceControl);
             break;
         case 'ping':
-            client.commands.get('ping').execute(message, args);
+            client.commands.get('ping').execute(message);
             break;
         case 'play':
-            client.commands.get('play').execute(message, args, client, VoiceControl);
+            client.commands.get('play').execute(message, args, VoiceControl);
             break;
         case 'queue':
-            client.commands.get('queue').execute(message, args, client, VoiceControl);
+            client.commands.get('queue').execute(message, VoiceControl);
             break;
         case 'resume':
             client.commands.get('resume').execute(VoiceControl);
             break;
-        case 'savelist':
-            client.commands.get('savelist').execute(message, args, client, VoiceControl);
-            break;
+        // case 'savelist':
+        //     client.commands.get('savelist').execute(message, args, client, VoiceControl);
+        //     break;
         case 'skip':
             client.commands.get('skip').execute(message, client, VoiceControl);
             break;
         case 'sound':
-            client.commands.get('sound').execute(message, args, 'sound', client, VoiceControl);
+            client.commands.get('sound').execute(message, args, 'sound', VoiceControl);
             break;
         case 'stop':
             client.commands.get('stop').execute(VoiceControl);

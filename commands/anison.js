@@ -1,21 +1,19 @@
 const voiceUtils = require('../utils/voiceUtils.js');
-require('dotenv').config();
+const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'anison',
     description: 'this is the anison command.',
-    async execute(message, args, client, VoiceControl) {
+    async execute(message, VoiceControl) {
         try {
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = client.voice.connections.get(process.env.SERVER_ID);
+            const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
+            let path = 'https://pool.anison.fm/AniSonFM(320)';
 
-            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
-
-            VoiceControl.dispatcher = VoiceControl.connection.play('https://pool.anison.fm/AniSonFM(320)', { volume: 0.2 });
-
+            voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            voiceUtils.playResource(path, VoiceControl, { volume: 0.2 });
         } catch (error) {
-            console.error(error);
-            message.channel.send(error);
+            utils.logError(error, message.channel);
         }
     }
 }

@@ -1,8 +1,10 @@
+const utils = require('../utils/utils.js');
+
 module.exports = {
     name: 'clear',
     description: 'this is the clear command, it clears the queue.',
 
-    execute(message, args, client, VoiceControl) {
+    execute(message, VoiceControl) {
         try {
             if (VoiceControl.frontQueue.length == 0) {
                 message.channel.send('La queue est déjà vide.');
@@ -13,8 +15,7 @@ module.exports = {
                 message.channel.send('Nettoyage effectué.');
             }
         } catch (error) {
-            console.log(error);
-            message.channel.send(error);
+            utils.logError(error, message.channel);
         }
     }
 }

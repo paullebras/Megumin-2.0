@@ -1,6 +1,6 @@
 
 const voiceUtils = require('../utils/voiceUtils.js');
-require('dotenv').config();
+const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'skip',
@@ -18,8 +18,7 @@ module.exports = {
             }
             message.channel.send('Désolée, la queue est vide.');
         } catch (error) {
-            console.error(error);
-            message.channel.send(error);
+            utils.logError(error, message.channel);
         }
 
     }

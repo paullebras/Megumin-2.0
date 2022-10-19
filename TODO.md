@@ -1,5 +1,10 @@
 **__MAIN FEATURES__**
 
+missing modules after update to v14:
+"google-auth-library": "^7.0.4",
+"googleapis": "^73.0.0",
+"node-opus": "^0.3.3",
+
 cas "--sound" sans rien après
 
 soundlist

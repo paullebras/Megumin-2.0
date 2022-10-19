@@ -1,8 +1,9 @@
-var fs = require('fs');
+/* var fs = require('fs');
 var readline = require('readline');
 var { google } = require('googleapis');
 const { content } = require('googleapis/build/src/apis/content');
 var OAuth2 = google.auth.OAuth2;
+const utils = require('../utils/utils.js'); */
 
 module.exports = {
     name: 'savelist',
@@ -205,8 +206,7 @@ module.exports = {
             }
 
         } catch (error) {
-            console.log(error);
-            message.channel.send(error);
+            utils.logError(error, message.channel);
         }
     }
 }

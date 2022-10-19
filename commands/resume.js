@@ -1,13 +1,14 @@
+const utils = require('../utils/utils.js');
+
 module.exports = {
     name: 'resume',
     description: 'this is the resume command.',
 
     execute(VoiceControl) {
         try {
-            VoiceControl.dispatcher.resume();
+            VoiceControl.player.resume();
         } catch (error) {
-            console.log(error);
-            message.channel.send(error);
+            utils.logError(error, message.channel);
         }
     }
 }
