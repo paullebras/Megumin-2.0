@@ -1,30 +1,81 @@
 const ytdl = require('ytdl-core');
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBehavior } = require('@discordjs/voice');
+const utils = require('../utils/utils.js');
 
 module.exports = {
 
+    getCurrentChannelFromMsg: function (VoiceControl, message) {
+
+        let currentChannel;
+        if (VoiceControl.connection) {
+            const id = VoiceControl.connection.joinConfig.channelId
+            currentChannel = message.guild.channels.cache.find(element => (element.id.includes(id)));
+        }
+        return currentChannel
+    },
+
     joinVoice: function (requestedChannel, currentChannel, VoiceControl) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                if (!requestedChannel && !currentChannel) {
-                    return reject("Désolée, l'un de nous deux doit être dans un canal vocal");
-                }
-                if (requestedChannel) {
-                    if (currentChannel != requestedChannel) {
-                        VoiceControl.connection = await requestedChannel.join();
-                    } else {
-                        return resolve();
-                    }
-                }
-                resolve();
-            } catch (error) {
-                reject(error);
+        try {
+            if (!requestedChannel && !currentChannel) {
+                throw ("Désolée, l'un de nous deux doit être dans un canal vocal");
             }
-        })
+            if (requestedChannel) {
+                if (currentChannel != requestedChannel) {
+                    VoiceControl.connection = joinVoiceChannel({
+                        channelId: requestedChannel.id,
+                        guildId: requestedChannel.guild.id,
+                        adapterCreator: requestedChannel.guild.voiceAdapterCreator,
+                    });
+                } else {
+                    return;
+                }
+            }
+            return;
+        } catch (error) {
+            utils.logError(error, message.channel);
+        }
+    },
+
+    destroyConnection: function (VoiceControl, connection) {
+        connection.destroy();
+        VoiceControl.connection = null;
+        return;
+    },
+
+    pausePlayer: function (player) {
+        player.pause();
+    },
+
+    resumePlayer: function (player) {
+        player.unpause();
+    },
+
+    stopPlayer: function (player) {
+        player.stop();
+    },
+
+    playResource: function (path, VoiceControl, volume) {
+        const resource = createAudioResource(path);
+        VoiceControl.player = createAudioPlayer({
+            behaviors: {
+                noSubscriber: NoSubscriberBehavior.Pause,
+            },
+        });
+        VoiceControl.player.play(resource, volume);
+        VoiceControl.connection.subscribe(VoiceControl.player);
     },
 
     playYoutube: function (VoiceControl, message) {
         try {
-            VoiceControl.dispatcher = VoiceControl.connection.play(ytdl(VoiceControl.queue[VoiceControl.queueIndex], { filter: 'audioonly' }))
+            const resource = createAudioResource(ytdl(VoiceControl.queue[VoiceControl.queueIndex], { filter: 'audioonly' }));
+
+            VoiceControl.player = createAudioPlayer({
+                behaviors: {
+                    noSubscriber: NoSubscriberBehavior.Pause,
+                },
+            });
+            VoiceControl.player.play(resource)
+            VoiceControl.player
                 .on('info', (info, format, error) => {
                     const videoDetails = info.videoDetails;
                     message.channel.send(`this song was requested: \`${videoDetails.title}\``);
@@ -49,9 +100,9 @@ module.exports = {
                     }
                 })
                 .on('error', (error) => {
-                    console.log(error);
-                    message.channel.send(error.message);
+                    utils.logError(error.message);
                 })
+            VoiceControl.connection.subscribe(VoiceControl.player);
         } catch (error) {
             throw (error);
         }

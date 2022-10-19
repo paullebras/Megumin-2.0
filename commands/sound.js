@@ -1,22 +1,25 @@
 const voiceUtils = require('../utils/voiceUtils.js');
-require('dotenv').config();
+const utils = require('../utils/utils.js');
+const fs = require("fs");
 
 module.exports = {
     name: 'sound',
     description: 'this is the soundboard command.',
-    async execute(message, args, type, client, VoiceControl) {
+    async execute(message, args, type, VoiceControl) {
         try {
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = client.voice.connections.get(process.env.SERVER_ID);
-
-            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
             if (type == 'sound')
-                VoiceControl.dispatcher = VoiceControl.connection.play(`soundboard/${args}.mp3`);
+                var path = `soundboard/${args}.mp3`
             if (type == 'music')
-                VoiceControl.dispatcher = VoiceControl.connection.play(`music/${args}.mp3`);
+                var path = `music/${args}.mp3`
+            if (!fs.existsSync(path))
+                throw(`File '${args}' does not exist`);
+
+            voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            voiceUtils.playResource(path, VoiceControl, { volume: 1.0 });
         } catch (error) {
-            console.error(error);
-            message.channel.send(error);
+            utils.logError(error, message.channel);
         }
     }
 }

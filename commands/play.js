@@ -1,20 +1,18 @@
 const ytdl = require('ytdl-core');
 const voiceUtils = require('../utils/voiceUtils.js');
-require('dotenv').config();
+const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'play',
     description: 'this is the music command.',
 
-    async execute(message, args, client, VoiceControl) {
+    async execute(message, args, VoiceControl) {
         try {
             const url = args[0];
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = client.voice.connections.get(process.env.SERVER_ID);
+            const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
 
-            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((err) => {
-                throw err;
-            })
+            voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
             VoiceControl.queue.push(url);
             if (url.includes("http://") || url.includes("https://")) {
                 if (url.includes("youtube") || url.includes("youtu.be")) {
@@ -28,8 +26,7 @@ module.exports = {
                             // readableStream.pipe(writeableSteam);
                         })
                         .on('error', (error, format) => {
-                            console.log(error.message);
-                            message.channel.send(error.message);
+                            utils.logError(error.message);
                         });
                     if (VoiceControl.isPlaying == false) {
                         voiceUtils.playYoutube(VoiceControl, message);
@@ -37,8 +34,7 @@ module.exports = {
                 }
             }
         } catch (error) {
-            console.log(error);
-            message.channel.send(error);
+            utils.logError(error, message.channel);
         }
     }
 }
