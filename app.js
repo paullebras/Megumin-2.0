@@ -74,6 +74,9 @@ client.on('messageCreate', message => {
         case 'resume':
             client.commands.get('resume').execute(VoiceControl);
             break;
+        case 'roll':
+            client.commands.get('roll').execute(message, args);
+            break;
         // case 'savelist':
         //     client.commands.get('savelist').execute(message, args, client, VoiceControl);
         //     break;
