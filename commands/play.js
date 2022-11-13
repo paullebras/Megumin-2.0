@@ -15,8 +15,8 @@ module.exports = {
             await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
                 throw (error);
             });
-            VoiceControl.queue.push(url);
             if (url.includes("http://") || url.includes("https://")) {
+                VoiceControl.queue.push(url);
                 if (url.includes("youtube") || url.includes("youtu.be")) {
                     let readableStream = ytdl(url);
                     readableStream
@@ -33,8 +33,14 @@ module.exports = {
                     if (VoiceControl.isPlaying == false) {
                         voiceUtils.playYoutube(VoiceControl, message);
                     }
+                } else {
+                    throw ('\`\`\`La lecture de contenus extérieurs à youtube n\'a pas encore été implémentée\`\`\`')
                 }
             }
+            else {
+                throw ('\`\`\`La recherche de vidéos par titre n\'a pas encore été implémentée\`\`\`');
+            }
+
         } catch (error) {
             utils.logError(error, message.channel);
         }
