@@ -13,7 +13,7 @@ module.exports = {
             await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
                 throw (error);
             });
-            voiceUtils.playResource(path, VoiceControl, { volume: 0.2 });
+            voiceUtils.playResource(path, VoiceControl, { volume: 0.1 });
         } catch (error) {
             utils.logError(error, message.channel);
         }
