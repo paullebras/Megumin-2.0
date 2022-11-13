@@ -9,6 +9,7 @@ play twitch / beepbox
 set prefix
 
 play:
+    with youtube tittle instead of url
     history (all things that have ever been played);
 
 soundlist
