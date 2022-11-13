@@ -1,5 +1,6 @@
 require('dotenv').config();
 const fs = require('fs');
+const Path = require('path');
 const { Client, Collection, IntentsBitField } = require('discord.js');
 
 const myIntents = new IntentsBitField();
@@ -10,10 +11,10 @@ const client = new Client({ intents: myIntents });
 const prefix = process.env.PREFIX;
 
 client.commands = new Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync(Path.join('src', 'commands')).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+    const command = require(Path.join(__dirname, 'src', 'commands', file));
     client.commands.set(command.name, command);
 }
 
@@ -81,13 +82,13 @@ client.on('messageCreate', message => {
         //     client.commands.get('savelist').execute(message, args, client, VoiceControl);
         //     break;
         case 'skip':
-            client.commands.get('skip').execute(message, client, VoiceControl);
+            client.commands.get('skip').execute(message, VoiceControl);
             break;
         case 'sound':
             client.commands.get('sound').execute(message, args, 'sound', VoiceControl);
             break;
         case 'stop':
-            client.commands.get('stop').execute(VoiceControl);
+            client.commands.get('stop').execute(VoiceControl, message);
             break;
 
         default:
