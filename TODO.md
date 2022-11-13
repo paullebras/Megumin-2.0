@@ -70,6 +70,10 @@ savelist :
 
 
 **__BUG FIXES__**
+
+in voiceUtils/playYoutube events are ignored so all steps are skipped and video is directly played.
+It probably messes up with the queue too. 
+
 START ERROR
 VoiceControl.queue[VoiceControl.queueIndex] = **play
 Error: No video id found: **play
