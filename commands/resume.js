@@ -1,3 +1,4 @@
+const voiceUtils = require('../utils/voiceUtils.js');
 const utils = require('../utils/utils.js');
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
 
     execute(message, VoiceControl) {
         try {
-            VoiceControl.player.resume();
+            voiceUtils.resumePlayer(VoiceControl.player);
         } catch (error) {
             utils.logError(error, message.channel);
         }
