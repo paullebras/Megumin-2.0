@@ -88,7 +88,7 @@ client.on('messageCreate', message => {
             client.commands.get('sound').execute(message, args, 'sound', VoiceControl);
             break;
         case 'stop':
-            client.commands.get('stop').execute(VoiceControl, message);
+            client.commands.get('stop').execute(message, VoiceControl);
             break;
 
         default:
