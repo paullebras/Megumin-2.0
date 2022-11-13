@@ -5,7 +5,7 @@ module.exports = {
     name: 'stop',
     description: 'this is the stop command.',
 
-    execute(VoiceControl) {
+    execute(VoiceControl, message) {
         try {
             voiceUtils.stopPlayer(VoiceControl.player);
         } catch (error) {
