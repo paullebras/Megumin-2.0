@@ -10,7 +10,7 @@ module.exports = {
         try {
             const channelToJoin = message.member.voice.channel;
             const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
-            const folder = type === 'sound' ? 'soundboard' : 'musics';
+            const folder = type === 'sound' ? Path.join('src', 'soundboard') : Path.join('src', 'music');
             const files = fs.readdirSync(folder)
             const normalizedFiles = files.map(x => x.toLowerCase());
             const index = normalizedFiles.indexOf(`${args[0].toLowerCase()}.mp3`);
