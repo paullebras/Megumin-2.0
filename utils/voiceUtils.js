@@ -1,6 +1,6 @@
 const ytdl = require('ytdl-core');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBehavior } = require('@discordjs/voice');
-const utils = require('../utils/utils.js');
+const utils = require('./utils.js');
 
 module.exports = {
 
@@ -13,6 +13,7 @@ module.exports = {
         }
         return currentChannel
     },
+
 
     joinVoice: function (requestedChannel, currentChannel, VoiceControl) {
         return new Promise((resolve, reject) => {
@@ -38,23 +39,40 @@ module.exports = {
         })
     },
 
+
     destroyConnection: function (VoiceControl, connection) {
         connection.destroy();
         VoiceControl.connection = null;
         return;
     },
 
+
     pausePlayer: function (player) {
-        player.pause();
+        if (player !== null) {
+            player.pause();
+        } else {
+            throw ('\`\`\`# Le lecteur ne joue actuellement aucune musique.\`\`\`');
+        }
     },
+
 
     resumePlayer: function (player) {
-        player.unpause();
+        if (player !== null) {
+            player.unpause();
+        } else {
+            throw ('\`\`\`# Le lecteur ne joue actuellement aucune musique.\`\`\`');
+        }
     },
 
+
     stopPlayer: function (player) {
-        player.stop();
+        if (player !== null) {
+            player.stop();
+        } else {
+            throw ('\`\`\`# Le lecteur ne joue actuellement aucune musique.\`\`\`');
+        }
     },
+
 
     playResource: function (path, VoiceControl, volume) {
         const resource = createAudioResource(path);
@@ -66,6 +84,7 @@ module.exports = {
         VoiceControl.player.play(resource, volume);
         VoiceControl.connection.subscribe(VoiceControl.player);
     },
+
 
     playYoutube: function (VoiceControl, message) {
         try {
@@ -102,7 +121,7 @@ module.exports = {
                     }
                 })
                 .on('error', (error) => {
-                    utils.logError(error.message);
+                    utils.logError(error.message, message.channel);
                 })
             VoiceControl.connection.subscribe(VoiceControl.player);
         } catch (error) {
