@@ -15,25 +15,27 @@ module.exports = {
     },
 
     joinVoice: function (requestedChannel, currentChannel, VoiceControl) {
-        try {
-            if (!requestedChannel && !currentChannel) {
-                throw ("Désolée, l'un de nous deux doit être dans un canal vocal");
-            }
-            if (requestedChannel) {
-                if (currentChannel != requestedChannel) {
-                    VoiceControl.connection = joinVoiceChannel({
-                        channelId: requestedChannel.id,
-                        guildId: requestedChannel.guild.id,
-                        adapterCreator: requestedChannel.guild.voiceAdapterCreator,
-                    });
-                } else {
-                    return;
+        return new Promise((resolve, reject) => {
+            try {
+                if (!requestedChannel && !currentChannel) {
+                    throw ("Désolée, l'un de nous deux doit être dans un canal vocal");
                 }
+                if (requestedChannel) {
+                    if (currentChannel != requestedChannel) {
+                        VoiceControl.connection = joinVoiceChannel({
+                            channelId: requestedChannel.id,
+                            guildId: requestedChannel.guild.id,
+                            adapterCreator: requestedChannel.guild.voiceAdapterCreator,
+                        });
+                    } else {
+                        resolve();
+                    }
+                }
+                resolve();
+            } catch (error) {
+                reject(error)
             }
-            return;
-        } catch (error) {
-            utils.logError(error, message.channel);
-        }
+        })
     },
 
     destroyConnection: function (VoiceControl, connection) {
