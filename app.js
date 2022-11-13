@@ -61,7 +61,7 @@ client.on('messageCreate', message => {
             client.commands.get('sound').execute(message, args, 'music', VoiceControl);
             break;
         case 'pause':
-            client.commands.get('pause').execute(VoiceControl);
+            client.commands.get('pause').execute(message, VoiceControl);
             break;
         case 'ping':
             client.commands.get('ping').execute(message);
@@ -73,7 +73,7 @@ client.on('messageCreate', message => {
             client.commands.get('queue').execute(message, VoiceControl);
             break;
         case 'resume':
-            client.commands.get('resume').execute(VoiceControl);
+            client.commands.get('resume').execute(message, VoiceControl);
             break;
         case 'roll':
             client.commands.get('roll').execute(message, args);
