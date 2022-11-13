@@ -10,7 +10,9 @@ module.exports = {
             const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
             let path = 'https://pool.anison.fm/AniSonFM(320)';
 
-            voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
+                throw (error);
+            });
             voiceUtils.playResource(path, VoiceControl, { volume: 0.2 });
         } catch (error) {
             utils.logError(error, message.channel);

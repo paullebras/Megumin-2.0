@@ -12,7 +12,9 @@ module.exports = {
             const channelToJoin = message.member.voice.channel;
             const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
 
-            voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
+                throw (error);
+            });
             VoiceControl.queue.push(url);
             if (url.includes("http://") || url.includes("https://")) {
                 if (url.includes("youtube") || url.includes("youtu.be")) {
