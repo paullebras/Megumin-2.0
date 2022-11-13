@@ -1,0 +1,39 @@
+const utils = require('../utils/utils.js');
+
+module.exports = {
+    name: 'roll',
+    description: 'this is a random dice command.',
+    execute(message, args) {
+        try {
+            const input = args[0];
+            const regex = /[0-9]+d[0-9]+/i;
+            if (!regex.test(input)) {
+                throw ('Command not recognized. Use : ```<number of dices>d<number of faces>```');
+            }
+            const temp = input.split('d');
+            const dices = parseInt(temp[0]);
+            const faces = parseInt(temp[1]);
+
+            let randoms = '```md\n# ';
+            for (let i = 0; i < dices; i++) {
+                let rd = Math.floor(Math.random() * faces) + 1
+                randoms += rd.toString();
+                if (i != dices - 1) {
+                    randoms += '  ';
+                } else {
+                    randoms += '```';
+                }
+            }
+            message.channel.send(randoms).catch((error) => {
+                const errmsg = error.rawError.message;
+                if (errmsg === "Invalid Form Body") {
+                    utils.logError("Wow wow wow ! On se calme...", message.channel);
+                } else {
+                    utils.logError(errmsg, message.channel);
+                }
+            });
+        } catch (error) {
+            utils.logError(error, message.channel);
+        }
+    }
+}
