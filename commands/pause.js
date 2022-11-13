@@ -5,7 +5,7 @@ module.exports = {
     name: 'pause',
     description: 'this is the pause command.',
 
-    execute(VoiceControl) {
+    execute(message, VoiceControl) {
         try {
             voiceUtils.pausePlayer(VoiceControl.player);
         } catch (error) {

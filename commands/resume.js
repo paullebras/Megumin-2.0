@@ -4,7 +4,7 @@ module.exports = {
     name: 'resume',
     description: 'this is the resume command.',
 
-    execute(VoiceControl) {
+    execute(message, VoiceControl) {
         try {
             VoiceControl.player.resume();
         } catch (error) {
