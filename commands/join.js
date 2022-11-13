@@ -4,7 +4,7 @@ const utils = require('../utils/utils.js');
 module.exports = {
     name: 'join',
     description: 'Megumin joins the current or specified (by id or by name) voice channel.',
-    execute(message, args, VoiceControl) {
+    async execute(message, args, VoiceControl) {
         try {
             let channelToJoin;
             const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
@@ -14,7 +14,9 @@ module.exports = {
                 channelToJoin = message.member.voice.channel;
             }
             if (channelToJoin != undefined) {
-                voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl);
+                await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
+                    throw (error);
+                });
             } else {
                 message.channel.send(`Désolée, le canal vocal **${args[0]}** n'existe pas.`);
             }
