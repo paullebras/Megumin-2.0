@@ -8,8 +8,9 @@ module.exports = {
     execute(message, VoiceControl) {
         try {
             voiceUtils.stopPlayer(VoiceControl.player);
-        } catch (error) {
+        }
+        catch (error) {
             utils.logError(error, message.channel);
         }
-    }
-}
+    },
+};
