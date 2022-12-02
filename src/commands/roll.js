@@ -16,24 +16,27 @@ module.exports = {
 
             let randoms = '```md\n# ';
             for (let i = 0; i < dices; i++) {
-                let rd = Math.floor(Math.random() * faces) + 1
+                const rd = Math.floor(Math.random() * faces) + 1;
                 randoms += rd.toString();
                 if (i != dices - 1) {
                     randoms += '  ';
-                } else {
+                }
+                else {
                     randoms += '```';
                 }
             }
             message.channel.send(randoms).catch((error) => {
                 const errmsg = error.rawError.message;
-                if (errmsg === "Invalid Form Body") {
-                    utils.logError("Wow wow wow ! On se calme...", message.channel);
-                } else {
+                if (errmsg === 'Invalid Form Body') {
+                    utils.logError('Wow wow wow ! On se calme...', message.channel);
+                }
+                else {
                     utils.logError(errmsg, message.channel);
                 }
             });
-        } catch (error) {
+        }
+        catch (error) {
             utils.logError(error, message.channel);
         }
-    }
-}
+    },
+};
