@@ -22,17 +22,17 @@ client.once('ready', () => {
     console.log('Megumin-2.0 is now online!');
 });
 
-var VoiceControl = {
-    "isPlaying": false,
-    "queueIndex": 0,
-    "queue": [],
-    "frontQueue": [],
-    "player": null,
-    "connection": null
+const VoiceControl = {
+    'isPlaying': false,
+    'queueIndex': 0,
+    'queue': [],
+    'frontQueue': [],
+    'player': null,
+    'connection': null,
 };
 
 client.on('messageCreate', message => {
-    //const guild = client.guilds.fetch(process.env.SERVER_ID || credentials.server_id);
+    // const guild = client.guilds.fetch(process.env.SERVER_ID || credentials.server_id);
 
     if (!message.content.startsWith(prefix) || message.author.bot) {
         return;
@@ -40,8 +40,8 @@ client.on('messageCreate', message => {
 
     console.log(message.author.username + ' : ' + message.content);
 
-    var args = message.content.slice(prefix.length).split(/ +/);
-    var command = args.shift().toLowerCase();
+    const args = message.content.slice(prefix.length).split(/ +/);
+    const command = args.shift().toLowerCase();
 
 
     switch (command) {
@@ -91,11 +91,12 @@ client.on('messageCreate', message => {
             client.commands.get('stop').execute(message, VoiceControl);
             break;
 
-        default:
-            msg = "Désolée, je ne sais pas encore faire ça.\nSi c'est important, tu peux en faire la demande dans le salon #Megumin-Request.";
+        default: {
+            const msg = 'Désolée, je ne sais pas encore faire ça.\nSi c\'est important, tu peux en faire la demande dans le salon #Megumin-Request.';
             console.log(msg);
             message.channel.send(msg);
             break;
+        }
     }
 });
 
