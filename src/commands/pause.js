@@ -5,11 +5,16 @@ module.exports = {
     name: 'pause',
     description: 'this is the pause command.',
 
-    execute(message, VoiceControl) {
+    async execute(message, VoiceControl) {
         try {
-            voiceUtils.pausePlayer(VoiceControl.player);
-        } catch (error) {
+            await voiceUtils.pausePlayer(VoiceControl.player)
+                .catch((error) => {
+                    throw error;
+                });
+            utils.reactMessage('✅', message);
+        }
+        catch (error) {
             utils.logError(error, message.channel);
         }
-    }
-}
+    },
+};
