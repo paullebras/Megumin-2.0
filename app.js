@@ -72,6 +72,9 @@ client.on('messageCreate', message => {
         case 'queue':
             client.commands.get('queue').execute(message, VoiceControl);
             break;
+        case 'restart':
+            client.commands.get('restart').execute(message);
+            break;
         case 'resume':
             client.commands.get('resume').execute(message, VoiceControl);
             break;
@@ -81,6 +84,9 @@ client.on('messageCreate', message => {
         // case 'savelist':
         //     client.commands.get('savelist').execute(message, args, client, VoiceControl);
         //     break;
+        case 'shutdown':
+            client.commands.get('shutdown').execute(message);
+            break;
         case 'skip':
             client.commands.get('skip').execute(message, VoiceControl);
             break;
