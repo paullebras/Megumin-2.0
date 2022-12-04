@@ -8,6 +8,7 @@ module.exports = {
     async execute(message, VoiceControl) {
         try {
             await voiceUtils.stopPlayer(VoiceControl.player);
+            utils.reactMessage('✅', message);
         }
         catch (error) {
             utils.logError(error, message.channel);
