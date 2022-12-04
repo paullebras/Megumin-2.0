@@ -7,21 +7,31 @@ module.exports = {
     async execute(message, args, VoiceControl) {
         try {
             let channelToJoin;
-            const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
-            if (args.length > 0) {
-                channelToJoin = message.guild.channels.cache.find(element => (element.name.includes(args[0])) || element.id.includes(args[0]));
-            } else {
-                channelToJoin = message.member.voice.channel;
-            }
-            if (channelToJoin != undefined) {
-                await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
+            const currentChannel = await voiceUtils.getUserCurrentChannelFromMsg(message)
+                .catch((error) => {
                     throw (error);
                 });
-            } else {
-                message.channel.send(`Désolée, le canal vocal **${args[0]}** n'existe pas.`);
+
+            // find specified voice channel OR user current voice channel
+            if (args.length > 0) {
+                channelToJoin = message.guild.channels.cache.find(element => (element.name.includes(args[0])) || element.id.includes(args[0]));
+                if ((channelToJoin) === undefined) {
+                    throw (`Désolée, le canal vocal **${args[0]}** n'existe pas.`);
+                }
             }
-        } catch (error) {
+            else {
+                channelToJoin = message.member.voice.channel;
+            }
+
+            // join voice channel
+            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+                .catch((error) => {
+                    throw (error);
+                });
+            utils.reactMessage('✅', message);
+        }
+        catch (error) {
             utils.logError(error, message.channel);
         }
-    }
-}
+    },
+};
