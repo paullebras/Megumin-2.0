@@ -5,9 +5,9 @@ module.exports = {
     name: 'stop',
     description: 'this is the stop command.',
 
-    execute(message, VoiceControl) {
+    async execute(message, VoiceControl) {
         try {
-            voiceUtils.stopPlayer(VoiceControl.player);
+            await voiceUtils.stopPlayer(VoiceControl.player);
         }
         catch (error) {
             utils.logError(error, message.channel);
