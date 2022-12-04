@@ -1,5 +1,8 @@
 **__MAIN FEATURES__**
 
+update skip command and remove duplicates between play/skip
+=> somethings has to go in a decicated function?
+
 cas "--sound" sans rien après
 
 soundlist
@@ -40,6 +43,10 @@ remove a specific element from the queue (with index, last element, last element
 
 **__FEATURES IMPROVMENTS__**
 
+resume :
+=> attendu : msg d'erreur quand rien n'est en pause
+=> actuel : react ok
+
 queue :
 => far too laggy
 => call ytdl twice
@@ -72,7 +79,7 @@ savelist :
 **__BUG FIXES__**
 
 in voiceUtils/playYoutube events are ignored so all steps are skipped and video is directly played.
-It probably messes up with the queue too. 
+It probably messes up with the queue too.
 
 START ERROR
 VoiceControl.queue[VoiceControl.queueIndex] = **play
@@ -203,6 +210,8 @@ help => daga kotowaru
 upload mp3 via front page
 
 **__DONE__**
+
+add linter
 
 update to discord.js v14
 
