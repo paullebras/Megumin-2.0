@@ -5,11 +5,16 @@ module.exports = {
     name: 'resume',
     description: 'this is the resume command.',
 
-    execute(message, VoiceControl) {
+    async execute(message, VoiceControl) {
         try {
-            voiceUtils.resumePlayer(VoiceControl.player);
-        } catch (error) {
+            await voiceUtils.resumePlayer(VoiceControl.player)
+                .catch((error) => {
+                    throw (error);
+                });
+            utils.reactMessage('✅', message);
+        }
+        catch (error) {
             utils.logError(error, message.channel);
         }
-    }
-}
+    },
+};

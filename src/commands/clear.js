@@ -8,14 +8,16 @@ module.exports = {
         try {
             if (VoiceControl.frontQueue.length == 0) {
                 message.channel.send('La queue est déjà vide.');
-            } else {
+            }
+            else {
                 VoiceControl.queue = [];
                 VoiceControl.frontQueue = [];
                 VoiceControl.queueIndex = 0;
-                message.channel.send('Nettoyage effectué.');
+                utils.reactMessage('✅', message);
             }
-        } catch (error) {
+        }
+        catch (error) {
             utils.logError(error, message.channel);
         }
-    }
-}
+    },
+};
