@@ -10,11 +10,24 @@ module.exports = {
         try {
             const url = args[0];
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
+            const currentChannel = voiceUtils.getUserCurrentChannelFromMsg(message);
 
-            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
-                throw (error);
-            });
+            // 1 << 62 gives the biggest number
+            // dlChunkSize: disabling chunking is recommended in discord bot
+            const audioParams = {
+                filter: 'audioonly',
+                fmt: 'mp3',
+                highWaterMark: 1 << 62,
+                liveBuffer: 1 << 62,
+                dlChunkSize: 0,
+                bitrate: 128,
+                quality: 'lowestaudio',
+            };
+
+            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+                .catch((error) => {
+                    throw (error);
+                });
             if (url.includes('http://') || url.includes('https://')) {
                 VoiceControl.queue.push(url);
                 if (url.includes('youtube') || url.includes('youtu.be')) {
@@ -31,7 +44,8 @@ module.exports = {
                             utils.logError(error.message);
                         });
                     if (VoiceControl.isPlaying == false) {
-                        voiceUtils.playYoutube(VoiceControl, message);
+                        const audio = ytdl(VoiceControl.queue[VoiceControl.queueIndex], audioParams);
+                        voiceUtils.playAudio(audio, VoiceControl, { volume: 1.0 }/* , message */, false);
                     }
                 }
                 else {
