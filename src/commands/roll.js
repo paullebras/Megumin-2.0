@@ -25,15 +25,16 @@ module.exports = {
                     randoms += '```';
                 }
             }
-            message.channel.send(randoms).catch((error) => {
-                const errmsg = error.rawError.message;
-                if (errmsg === 'Invalid Form Body') {
-                    utils.logError('Wow wow wow ! On se calme...', message.channel);
-                }
-                else {
-                    utils.logError(errmsg, message.channel);
-                }
-            });
+            message.channel.send(randoms)
+                .catch((error) => {
+                    const errmsg = error.rawError.message;
+                    if (errmsg === 'Invalid Form Body') {
+                        utils.logError('Wow wow wow ! On se calme...', message.channel);
+                    }
+                    else {
+                        utils.logError(errmsg, message.channel);
+                    }
+                });
         }
         catch (error) {
             utils.logError(error, message.channel);
