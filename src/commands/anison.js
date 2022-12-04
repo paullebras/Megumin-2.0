@@ -7,13 +7,18 @@ module.exports = {
     async execute(message, VoiceControl) {
         try {
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = voiceUtils.getCurrentChannelFromMsg(VoiceControl, message);
+            const currentChannel = voiceUtils.getUserCurrentChannelFromMsg(message);
             const path = 'https://pool.anison.fm/AniSonFM(320)';
 
-            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl).catch((error) => {
-                throw (error);
-            });
-            voiceUtils.playResource(path, VoiceControl, { volume: 0.1 });
+            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+                .catch((error) => {
+                    throw (error);
+                });
+            await voiceUtils.playAudio(path, VoiceControl, { volume: 0.1 }, false)
+                .catch((error) => {
+                    throw (error);
+                });
+            utils.reactMessage('✅', message);
         }
         catch (error) {
             utils.logError(error, message.channel);
