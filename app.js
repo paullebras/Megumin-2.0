@@ -2,6 +2,7 @@ require('dotenv').config();
 const fs = require('fs');
 const Path = require('path');
 const { Client, Collection, IntentsBitField } = require('discord.js');
+const utils = require('./src/utils/utils');
 
 const myIntents = new IntentsBitField();
 myIntents.add(IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.GuildVoiceStates);
@@ -28,7 +29,6 @@ const VoiceControl = {
     'queue': [],
     'frontQueue': [],
     'player': null,
-    'connection': null,
 };
 
 client.on('messageCreate', message => {
@@ -90,11 +90,9 @@ client.on('messageCreate', message => {
         case 'stop':
             client.commands.get('stop').execute(message, VoiceControl);
             break;
-
         default: {
-            const msg = 'Désolée, je ne sais pas encore faire ça.\nSi c\'est important, tu peux en faire la demande dans le salon #Megumin-Request.';
-            console.log(msg);
-            message.channel.send(msg);
+            const error = 'Désolée, je ne sais pas encore faire ça.\nSi c\'est important, tu peux en faire la demande ici : <#751202233105907763>.';
+            utils.logError(error, message.channel);
             break;
         }
     }
