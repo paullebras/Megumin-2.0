@@ -5,7 +5,9 @@ const Path = require('path');
 
 module.exports = {
     name: 'sound',
-    description: 'this is the soundboard command.',
+    description: 'Joue un fichier audio de la base de données',
+    usage:'sound <nom du fichier audio>',
+    type: ':notes: Music',
     async execute(message, args, type, VoiceControl) {
         try {
             const channelToJoin = message.member.voice.channel;

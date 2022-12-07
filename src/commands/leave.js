@@ -4,7 +4,9 @@ const { getVoiceConnection } = require('@discordjs/voice');
 
 module.exports = {
     name: 'leave',
-    description: 'this command makes Megumin leave the current voice channel.',
+    description: 'Quitte le salon vocal actuel.',
+    usage:'leave',
+    type: ':notes: Music',
     async execute(message, VoiceControl) {
         try {
             const connection = getVoiceConnection(process.env.SERVER_ID);

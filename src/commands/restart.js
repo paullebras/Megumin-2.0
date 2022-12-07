@@ -2,8 +2,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'restart',
-    description: 'this command restarts the bot. Will be deleted after https://github.com/discordjs/discord.js/issues/7232 is fixed.',
-
+    description: 'Redémarre le bot. Fix temporaire du bug suivant https://github.com/discordjs/discord.js/issues/7232.',
+    usage:'restart',
+    type: ':wrench: Tools',
     execute(message) {
         try {
             // https://nodejs.org/api/process.html#event-exit

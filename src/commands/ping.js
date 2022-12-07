@@ -3,7 +3,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'ping',
-    description: 'this is a ping command.',
+    description: 'pong!',
+    usage: 'ping',
+    type: ':wrench: Tools',
     execute(message) {
         try {
             message.channel.send(`${message.author/* .username */}, le Destin nous a réunis !`);

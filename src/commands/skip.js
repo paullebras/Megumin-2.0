@@ -4,8 +4,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'skip',
-    description: 'This command allows to play the next video in queue.',
-
+    description: 'Joue le prochain audio contenu dans la file d\'attente.',
+    usage:'skip',
+    type: ':notes: Music',
     async execute(message, VoiceControl) {
         try {
             if (VoiceControl.queue.length >= VoiceControl.queueIndex + 2) {

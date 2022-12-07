@@ -2,8 +2,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'queue',
-    description: 'this is the queue command.',
-
+    description: 'Affiche la liste des audio en attente de lecture.',
+    usage:'queue',
+    type: ':notes: Music',
     execute(message, VoiceControl) {
         try {
             if (VoiceControl.frontQueue.length == 0) {

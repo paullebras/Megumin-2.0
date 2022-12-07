@@ -2,8 +2,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'shutdown',
-    description: 'this command stops the bot. It is used to stop it after the restart function has been used because we dont know any better',
-
+    description: '/!\\ Cette commande arrête le bot. Une intervention manuelle sera nécessaire pour le redémarrer /!\\.',
+    usage:'shutdown',
+    type: ':wrench: Tools',
     execute(message) {
         try {
             process.exit();
