@@ -13,12 +13,23 @@ module.exports = {
     },
 
 
-    sendMessage: function(text, channel) {
+    sendBasicMessage: function(text, channel) {
+        channel.send(text);
+    },
+
+
+    sendInfoMessage: function(text, channel) {
         const messageEmbed = new EmbedBuilder()
             .setColor(0x0000)
             .setDescription(`:information_source:\xa0\xa0${text}`);
 
         channel.send({ embeds: [messageEmbed] });
+        return;
+    },
+
+
+    sendMessageWithCustomEmbed: function(customEmbed, channel) {
+        channel.send({ embeds: [customEmbed] });
         return;
     },
 
