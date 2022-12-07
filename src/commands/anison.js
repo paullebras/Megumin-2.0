@@ -3,7 +3,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'anison',
-    description: 'this is the anison command.',
+    description: 'Joue la webradio ANISON.FM : https://en.anison.fm/.',
+    usage: 'anison',
+    type: ':notes: Music',
     async execute(message, VoiceControl) {
         try {
             const channelToJoin = message.member.voice.channel;

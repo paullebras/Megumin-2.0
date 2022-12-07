@@ -3,8 +3,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'resume',
-    description: 'this is the resume command.',
-
+    description: 'Redémarre l`audio en cours de lecture.',
+    usage:'resume',
+    type: ':notes: Music',
     async execute(message, VoiceControl) {
         try {
             await voiceUtils.resumePlayer(VoiceControl.player)

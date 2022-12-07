@@ -3,7 +3,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'join',
-    description: 'Megumin joins the current or specified (by id or by name) voice channel.',
+    description: 'Rejoins le salon vocal spécifié (id ou nom). Si aucun salon n\'est précisé : rejoins le salon actuel de l`utilisateur.',
+    usage:'join <id ou nom du salon>',
+    type: ':notes: Music',
     async execute(message, args, VoiceControl) {
         try {
             let channelToJoin;

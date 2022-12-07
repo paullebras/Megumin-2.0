@@ -7,8 +7,9 @@ const utils = require('../utils/utils.js'); */
 
 module.exports = {
     name: 'savelist',
-    description: 'this commands takes a youtube playlist url and generates a txt with data from the playlist.',
-
+    description: 'Génère un fichier texte avec les données de la playlist youtube spécifiée.',
+    usage:'savelist <playlist URL>',
+    type: ':wrench: Tools',
     async execute(message, args, client, VoiceControl) {
         try {
             const url = args[0];

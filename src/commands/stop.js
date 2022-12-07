@@ -3,8 +3,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'stop',
-    description: 'this is the stop command.',
-
+    description: 'Interrompt l`audio en cours de lecture.',
+    usage:'stop',
+    type: ':notes: Music',
     async execute(message, VoiceControl) {
         try {
             await voiceUtils.stopPlayer(VoiceControl.player);
