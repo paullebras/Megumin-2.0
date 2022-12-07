@@ -51,6 +51,9 @@ client.on('messageCreate', message => {
         case 'clear':
             client.commands.get('clear').execute(message, VoiceControl);
             break;
+        case 'help':
+            client.commands.get('help').execute(message, args);
+            break;
         case 'join':
             client.commands.get('join').execute(message, args, VoiceControl);
             break;
