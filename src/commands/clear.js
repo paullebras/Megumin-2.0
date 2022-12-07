@@ -2,8 +2,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'clear',
-    description: 'this is the clear command, it clears the queue.',
-
+    description: 'Nettoie la file d\'attente.',
+    usage:'clear',
+    type: ':notes: Music',
     execute(message, VoiceControl) {
         try {
             if (VoiceControl.frontQueue.length == 0) {

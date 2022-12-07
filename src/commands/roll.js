@@ -2,7 +2,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'roll',
-    description: 'this is a random dice command.',
+    description: 'Jet de dés aléatoire',
+    usage:'roll <nombre de dés>d<nombre de faces>',
+    type: ':tada: Fun',
     execute(message, args) {
         try {
             const input = args[0];

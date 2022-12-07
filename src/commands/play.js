@@ -4,8 +4,9 @@ const utils = require('../utils/utils.js');
 
 module.exports = {
     name: 'play',
-    description: 'this is the music command.',
-
+    description: 'Joue l\'audio d\'une vidéo sur Youtube. A l\'avenir, divers sites seront pris en charge.',
+    usage:'play <youtube URL>',
+    type: ':notes: Music',
     async execute(message, args, VoiceControl) {
         try {
             const url = args[0];
