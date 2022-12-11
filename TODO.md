@@ -26,6 +26,10 @@ play twitch / beepbox
 
 **__SECONDARY FEATURES__**
 
+Use filecache (or smth else?) to cache all static files. Which will load the files even faster.
+=> https://www.npmjs.com/package/filecache
+
+
 serveurs stats (how many messages from non bots member...)
 
 delete the last X messages + search by string and delete ?
