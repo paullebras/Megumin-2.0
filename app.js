@@ -96,6 +96,9 @@ client.on('messageCreate', message => {
         case 'sound':
             client.commands.get('sound').execute(message, args, 'sound', VoiceControl);
             break;
+        case 'soundlist':
+            client.commands.get('soundlist').execute(message, args);
+            break;
         case 'stop':
             client.commands.get('stop').execute(message, VoiceControl);
             break;
