@@ -5,7 +5,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: 'help',
     type: ':wrench: Tools',
-    description: 'Affiche la description et l\'utilisation de la commande spécifié. Si aucune commandes n\'est précisée : affiche la liste des commandes.',
+    description: 'Affiche la description et l\'utilisation de la commande spécifiée. Si aucune commandes n\'est précisée : affiche la liste de toutes les commandes.',
     usage: 'help <commande>',
     async execute(message, args) {
         try {
