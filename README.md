@@ -51,11 +51,6 @@ npm start
 - [Paul LE BRAS](https://github.com/Sanguor) - Initial work
 
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-
 ## Release History
 
 - v1.0.0 (2020-23-12)
