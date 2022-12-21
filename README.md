@@ -2,6 +2,24 @@
 
 A Discord bot written in JavaScript using the Discord.js library.
 
+## Functionalities
+
+- Music: The bot can play music from YouTube by taking a search query (not implemented yet) or a direct link as input. It can also create playlists.
+
+- Web radio: The bot includes a web radio command that plays the "Anison" web radio in the current voice channel. The "Anison" web radio plays songs from various anime shows.
+
+- Dice rolling: The bot includes a dice rolling command that allows users to roll a random number, similar to rolling a physical dice. The user can choose the number of dice and the number of faces on each dice.
+
+- Soundbox: The bot includes a soundbox feature that allows users to play short sound clips from a predefined list. Users can use the `!sound` command followed by the name of the sound to play it in the current voice channel. For example:
+
+```
+!sound HastaLaVista
+```
+
+
+
+You can customize the list of available sounds by adding or removing audio files from the `soundboard` directory in the bot's code.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -40,10 +58,18 @@ PREFIX=$
 npm start
 ```
 
+## Usage
+
+The bot can be controlled through commands issued in Discord channels. A list of available commands can be obtained by using the $help command.
+
+
 
 ## Built With
 
 - [Discord.js](https://discord.js.org/) - A powerful JavaScript library for interacting with the Discord API
+
+
+
 
 
 ## Authors
