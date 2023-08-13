@@ -28,6 +28,7 @@ const VoiceControl = {
     'queueIndex': 0,
     'queue': [],
     'frontQueue': [],
+    'durationQueue': [],
     'player': null,
 };
 
@@ -73,7 +74,7 @@ client.on('messageCreate', message => {
             client.commands.get('play').execute(message, args, VoiceControl);
             break;
         case 'queue':
-            client.commands.get('queue').execute(message, VoiceControl);
+            client.commands.get('queue').execute(message, args, VoiceControl);
             break;
         case 'restart':
             client.commands.get('restart').execute(message);

@@ -12,10 +12,7 @@ module.exports = {
             if (!regex.test(input)) {
                 throw ('Command not recognized. Use : ```<number of dices>d<number of faces>```');
             }
-            const temp = input.split('d');
-            const dices = parseInt(temp[0]);
-            const faces = parseInt(temp[1]);
-
+            const [dices, faces] = input.split('d').map(string => parseInt(string));
             let randoms = '```md\n# ';
             for (let i = 0; i < dices; i++) {
                 const rd = Math.floor(Math.random() * faces) + 1;
