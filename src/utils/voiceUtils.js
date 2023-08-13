@@ -119,7 +119,7 @@ module.exports = {
             }
             // end_issue
 
-            // const currentChannel = this.getUserCurrentChannelFromMsg(VoiceControl, message);
+            // const currentChannel = await this.getUserCurrentChannelFromMsg(VoiceControl, message);
             const connection = getVoiceConnection(process.env.SERVER_ID);
             // const connection = getVoiceConnection(currentChannel.guild.id);
 
@@ -130,9 +130,9 @@ module.exports = {
                     noSubscriber: NoSubscriberBehavior.Pause,
                 },
             });
-            /* VoiceControl.player.on('stateChange', (oldState, newState) => {
+            VoiceControl.player.on('stateChange', (oldState, newState) => {
                 console.log(`Audio player transitioned from ${oldState.status} to ${newState.status}`);
-            }); */
+            });
             VoiceControl.player.on('error', error => {
                 // console.error(`Error: ${error.message} with resource ${error.resource/* .metadata.title */}`);
                 throw (error);
@@ -165,10 +165,6 @@ module.exports = {
                 if (VoiceControl.isPlaying == false) {
                     this.playYoutube(VoiceControl, message);
                 }
-                // let fileName = info.title.replace(/[^a-z0-9\-]/gi, '_');
-                // let container = format.container;
-                // let writeableSteam = fs.createWriteStream(`${fileName}.${container}`);
-                // readableStream.pipe(writeableSteam);
             })
             .on('start', () => {
                 VoiceControl.isPlaying = true;
