@@ -9,7 +9,7 @@ module.exports = {
     async execute(message, VoiceControl) {
         try {
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = voiceUtils.getUserCurrentChannelFromMsg(message);
+            const currentChannel = await voiceUtils.getUserCurrentChannelFromMsg(message);
             const path = 'https://pool.anison.fm/AniSonFM(320)';
 
             await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)

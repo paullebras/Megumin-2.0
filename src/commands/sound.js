@@ -11,7 +11,7 @@ module.exports = {
     async execute(message, args, type, VoiceControl) {
         try {
             const channelToJoin = message.member.voice.channel;
-            const currentChannel = voiceUtils.getUserCurrentChannelFromMsg(message);
+            const currentChannel = await voiceUtils.getUserCurrentChannelFromMsg(message);
             const folder = type === 'sound' ? Path.join('src', 'soundboard') : Path.join('src', 'music');
             const files = fs.readdirSync(folder);
             const normalizedFiles = files.map(x => x.toLowerCase());
