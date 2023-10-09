@@ -44,13 +44,7 @@ git clone https://github.com/Sanguor/Megumin-2.0.git
 npm install
 ```
 
-3. Create a file called `.env` and add the following lines, replacing `YOUR_BOT_TOKEN` and `YOUR_SERVER_ID` with your actual bot token and server id:
-
-```
-DISCORD_BOT_TOKEN=YOUR_BOT_TOKEN
-SERVER_ID=YOUR_SERVER_ID
-PREFIX=$
-```
+3. Copy the `.env.mock` file, rename it `.env` and add the required credentials.
 
 4. Run the bot
 
