@@ -2,7 +2,7 @@ const ytdl = require('ytdl-core');
 const { EmbedBuilder } = require('discord.js');
 const voiceUtils = require('../utils/voiceUtils.js');
 const utils = require('../utils/utils.js');
-
+const services = require('../core/services.js');
 
 function createPlayEmbed(videoInfo, videoUrl, username) {
     const title = videoInfo.videoDetails.title;
@@ -40,10 +40,13 @@ module.exports = {
                 throw ('La lecture auto de la playlist n\'a pas encore été implémentée');
             }
 
-            const url = args[0];
+            const keywords = args;
+            let url;
 
-            if (!url.includes('http://') && !url.includes('https://')) {
-                throw ('La recherche de vidéos par titre n\'a pas encore été implémentée');
+            if (!keywords.includes('http://') && !keywords.includes('https://')) {
+                const searchData = await services.searchYoutube(keywords);
+                const videoId = searchData.data.items[0].id.videoId;
+                url = `https://www.youtube.com/watch?v=${videoId}`;
             }
             if (!url.includes('youtube') && !url.includes('youtu.be')) {
                 throw ('La lecture de contenus extérieurs à YouTube n\'a pas encore été implémentée');

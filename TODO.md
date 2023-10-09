@@ -82,6 +82,8 @@ savelist :
 
 **__BUG FIXES__**
 
+doesn't display video embed when a video is played with skip (maybe just for the all videos played after the first video since the restart)
+
 in voiceUtils/playYoutube events are ignored so all steps are skipped and video is directly played.
 It probably messes up with the queue too.
 
