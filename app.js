@@ -88,6 +88,9 @@ client.on('messageCreate', message => {
         // case 'savelist':
         //     client.commands.get('savelist').execute(message, args, client, VoiceControl);
         //     break;
+        case 'savelistv2':
+            client.commands.get('savelistv2').execute(message, args);
+            break;
         case 'shutdown':
             client.commands.get('shutdown').execute(message);
             break;
