@@ -52,4 +52,9 @@ module.exports = {
 
         return ('0' + h).slice(-2) + ':' + ('0' + m).slice(-2) + ':' + ('0' + s).slice(-2);
     },
+
+    createFxTwitterLink: function(link) {
+        const splittedLink = link.split('x.com');
+        return splittedLink.join('fxtwitter.com');
+    },
 };
