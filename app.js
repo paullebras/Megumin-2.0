@@ -36,6 +36,9 @@ client.on('messageCreate', message => {
     // const guild = client.guilds.fetch(process.env.SERVER_ID || credentials.server_id);
 
     if (!message.content.startsWith(prefix) || message.author.bot) {
+        if (message.content.includes('x.com')) {
+            utils.sendBasicMessage(utils.createFxTwitterLink(message.content), message.channel);
+        }
         return;
     }
 
