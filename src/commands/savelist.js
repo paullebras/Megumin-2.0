@@ -3,7 +3,7 @@ const utils = require('../utils/utils.js');
 const fs = require('fs').promises; // Import fs.promises for async file operations
 
 module.exports = {
-    name: 'savelistv2',
+    name: 'savelist',
     description: 'Génère un fichier CSV avec les données de la playlist YouTube spécifiée.',
     usage: 'savelist <playlist URL>',
     type: ':wrench: Tools',
