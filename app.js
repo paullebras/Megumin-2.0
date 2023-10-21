@@ -85,11 +85,8 @@ client.on('messageCreate', message => {
         case 'roll':
             client.commands.get('roll').execute(message, args);
             break;
-        // case 'savelist':
-        //     client.commands.get('savelist').execute(message, args, client, VoiceControl);
-        //     break;
-        case 'savelistv2':
-            client.commands.get('savelistv2').execute(message, args);
+        case 'savelist':
+            client.commands.get('savelist').execute(message, args, client, VoiceControl);
             break;
         case 'shutdown':
             client.commands.get('shutdown').execute(message);
