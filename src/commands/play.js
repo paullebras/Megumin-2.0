@@ -40,13 +40,15 @@ module.exports = {
                 throw ('La lecture auto de la playlist n\'a pas encore été implémentée');
             }
 
-            const keywords = args;
             let url;
 
-            if (!keywords.includes('http://') && !keywords.includes('https://')) {
-                const searchData = await services.searchYoutube(keywords);
+            if (!args[0].includes('http://') && !args[0].includes('https://')) {
+                const searchData = await services.searchYoutube(args);
                 const videoId = searchData.data.items[0].id.videoId;
                 url = `https://www.youtube.com/watch?v=${videoId}`;
+            }
+            else {
+                url = args[0];
             }
             if (!url.includes('youtube') && !url.includes('youtu.be')) {
                 throw ('La lecture de contenus extérieurs à YouTube n\'a pas encore été implémentée');
