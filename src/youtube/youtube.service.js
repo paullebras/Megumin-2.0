@@ -7,7 +7,7 @@ module.exports = {
         const response = await axios.get(`${baseUrl}/v3/search?key=${apiKey}&q=${encodeURIComponent(keywords)}&part=snippet&type=video`);
         return response;
     },
-    searchPlaylist: async function(playlistId) {
+    searchYoutubePlaylist: async function(playlistId) {
         let allItems = [];
         let nextPageToken = null;
 
