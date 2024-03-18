@@ -1,8 +1,12 @@
 require('dotenv').config();
-const fs = require('fs');
+const { readdirSync } = require('fs');
 const Path = require('path');
 const { Client, Collection, IntentsBitField } = require('discord.js');
 const utils = require('./src/utils/utils');
+const { createAudioPlayer, NoSubscriberBehavior, createAudioResource } = require('@discordjs/voice');
+const voiceUtils = require('./src/utils/voiceUtils');
+const ytdl = require('ytdl-core');
+const audioParams = require('./config/audioParams');
 
 const myIntents = new IntentsBitField();
 myIntents.add(IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.GuildVoiceStates);
@@ -12,7 +16,7 @@ const client = new Client({ intents: myIntents });
 const prefix = process.env.PREFIX;
 
 client.commands = new Collection();
-const commandFiles = fs.readdirSync(Path.join('src', 'commands')).filter(file => file.endsWith('.js'));
+const commandFiles = readdirSync(Path.join('src', 'commands')).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
     const command = require(Path.join(__dirname, 'src', 'commands', file));
@@ -23,22 +27,56 @@ client.once('ready', () => {
     console.log('Megumin-2.0 is now online!');
 });
 
+const player = createAudioPlayer({
+    behaviors: {
+        // Default behavior is to pause when there are no active subscribers for an audio player.
+        // Can be configured to pause, stop, or just continue playing through the stream.
+        noSubscriber: NoSubscriberBehavior.Pause,
+    },
+});
+
 const VoiceControl = {
-    'isPlaying': false,
-    'queueIndex': 0,
-    'queue': [],
-    'frontQueue': [],
-    'durationQueue': [],
-    'player': null,
+    queue: [],
+    frontQueue: [],
+    durationQueue: [],
+    player: player,
+    source: '',
 };
+
+VoiceControl.player.on('idle', async () => {
+    if (VoiceControl.source !== 'soundboard' && VoiceControl.source !== 'anison') {
+        VoiceControl.queue.shift();
+        VoiceControl.frontQueue.shift();
+    }
+    if (VoiceControl.queue.length >= 1) {
+        VoiceControl.source = 'youtube';
+        const url = VoiceControl.queue[0];
+        if (url) {
+            const audioResource = createAudioResource(ytdl(url, audioParams));
+            await voiceUtils.playAudioResource(audioResource, VoiceControl)
+                .catch((error) => {
+                    throw (error);
+                });
+        }
+    }
+});
+
+VoiceControl.player.on('stateChange', (oldState, newState) => {
+    console.log(`Audio player transitioned from ${oldState.status} to ${newState.status}`);
+});
+VoiceControl.player.on('error', error => {
+    // console.error(`Error: ${error.message} with resource ${error.resource/* .metadata.title */}`);
+    throw (error);
+});
+
 
 client.on('messageCreate', message => {
     // const guild = client.guilds.fetch(process.env.SERVER_ID || credentials.server_id);
 
     if (!message.content.startsWith(prefix) || message.author.bot) {
-        if (message.content.includes('x.com')) {
-            utils.sendBasicMessage(utils.createFxTwitterLink(message.content), message.channel);
-        }
+        // if (message.content.includes('x.com')) {
+        //     utils.sendBasicMessage(utils.createFxTwitterLink(message.content), message.channel);
+        // }
         return;
     }
 
@@ -59,7 +97,7 @@ client.on('messageCreate', message => {
             client.commands.get('help').execute(message, args);
             break;
         case 'join':
-            client.commands.get('join').execute(message, args, VoiceControl);
+            client.commands.get('join').execute(message, args);
             break;
         case 'leave':
             client.commands.get('leave').execute(message, VoiceControl);

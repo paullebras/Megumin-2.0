@@ -1,5 +1,5 @@
 const utils = require('../utils/utils.js');
-const fs = require('fs');
+const { readdirSync } = require('fs');
 const Path = require('path');
 const { EmbedBuilder } = require('discord.js');
 
@@ -39,7 +39,7 @@ module.exports = {
             };
 
             // We sort all sounds.
-            const sounds = fs.readdirSync(Path.join('src', 'soundboard')).map(sound => sound.split('.')[0]);
+            const sounds = readdirSync(Path.join('src', 'soundboard')).map(sound => sound.split('.')[0]);
 
             const sortedSounds = {};
             for (const cat in categoriesIndex) {
