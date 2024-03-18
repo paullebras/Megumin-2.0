@@ -13,7 +13,6 @@ module.exports = {
             else {
                 VoiceControl.queue = [];
                 VoiceControl.frontQueue = [];
-                VoiceControl.queueIndex = 0;
                 utils.reactMessage('✅', message);
             }
         }

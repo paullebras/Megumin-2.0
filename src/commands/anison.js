@@ -1,5 +1,6 @@
 const voiceUtils = require('../utils/voiceUtils.js');
 const utils = require('../utils/utils.js');
+const { createAudioResource } = require('@discordjs/voice');
 
 module.exports = {
     name: 'anison',
@@ -10,13 +11,15 @@ module.exports = {
         try {
             const channelToJoin = message.member.voice.channel;
             const currentChannel = await voiceUtils.getUserCurrentChannelFromMsg(message);
-            const path = 'https://pool.anison.fm/AniSonFM(320)';
+            const url = 'https://pool.anison.fm/AniSonFM(320)';
 
             await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
                 .catch((error) => {
                     throw (error);
                 });
-            await voiceUtils.playAudio(path, VoiceControl, { volume: 0.1 }, false)
+            VoiceControl.source = 'anison';
+            const audioResource = createAudioResource(url);
+            await voiceUtils.playAudioResource(audioResource, VoiceControl)
                 .catch((error) => {
                     throw (error);
                 });
