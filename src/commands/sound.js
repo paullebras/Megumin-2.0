@@ -1,7 +1,8 @@
 const voiceUtils = require('../utils/voiceUtils.js');
 const utils = require('../utils/utils.js');
-const fs = require('fs');
+const { readdirSync, createReadStream } = require('fs');
 const Path = require('path');
+const { createAudioResource } = require('@discordjs/voice');
 
 module.exports = {
     name: 'sound',
@@ -13,7 +14,7 @@ module.exports = {
             const channelToJoin = message.member.voice.channel;
             const currentChannel = await voiceUtils.getUserCurrentChannelFromMsg(message);
             const folder = type === 'sound' ? Path.join('src', 'soundboard') : Path.join('src', 'music');
-            const files = fs.readdirSync(folder);
+            const files = readdirSync(folder);
             const normalizedFiles = files.map(x => x.toLowerCase());
             const index = normalizedFiles.indexOf(`${args[0].toLowerCase()}.mp3`);
             const resource = files[index];
@@ -21,13 +22,21 @@ module.exports = {
             if (normalizedFiles.includes(args[0].toLowerCase())) {
                 throw (`File '${args}' does not exist`);
             }
-            const path = Path.join(folder, resource);
+            const resourcePath = Path.join(folder, resource);
 
-            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            await voiceUtils.joinVoice(channelToJoin, currentChannel)
                 .catch((error) => {
                     throw (error);
                 });
-            await voiceUtils.playAudio(path, VoiceControl, { volume: 1.0 }, true)
+            VoiceControl.source = 'soundboard';
+            // start_issue
+            // 03/12/2022
+            // Using createReadStream should not be needed but there is an issue with discordjs/voice
+            // More details here: https://github.com/discordjs/discord.js/issues/7232
+            // original code: const resource = createAudioResource(path);
+            const audioResource = createAudioResource(createReadStream(resourcePath));
+            // end_issue
+            await voiceUtils.playAudioResource(audioResource, VoiceControl)
                 .then(() => {
                     utils.reactMessage('✅', message);
                 })

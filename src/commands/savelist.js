@@ -1,4 +1,4 @@
-const services = require('../core/services.js');
+const youtubeService = require('../youtube/youtube.service.js');
 const utils = require('../utils/utils.js');
 const fs = require('fs').promises; // Import fs.promises for async file operations
 
@@ -10,7 +10,7 @@ module.exports = {
     async execute(message, args) {
         try {
             const playlistId = args[0];
-            const response = await services.searchPlaylist(playlistId);
+            const response = await youtubeService.searchYoutubePlaylist(playlistId);
 
             const playlistItems = response.data.items;
             const csvData = [];

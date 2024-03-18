@@ -35,7 +35,7 @@ module.exports = {
     type: ':notes: Music',
     async execute(message, args, VoiceControl) {
         try {
-            if (VoiceControl.frontQueue.length == 0) {
+            if (!VoiceControl.frontQueue.length) {
                 utils.sendInfoMessage('Il n\'y a aucune vidéo en attente de lecture.', message.channel);
                 return;
             }
@@ -44,13 +44,12 @@ module.exports = {
             }
             const requiredPage = args.length == 0 ? 1 : args[0];
 
-            // TODO Remove songs from queue after they have been played ? => Fixes at least previous issue since current song would always be at index 0
-            // TODO Handle auto play next song
+            // TODO Remove songs from queue after they have been played ? => Fixes at least previous issue since current song would always be at index 0 => DONE
+            // TODO Handle auto play next song => DONE
             // TODO Handle play with no args if songs are still in queue ?
             // TODO find how to use local images in embed : https://stackoverflow.com/questions/51199950/how-do-i-use-a-local-image-on-a-discord-js-rich-embed
             let queue = '\u200b\n**EN COURS : **\n\n';
-            /* VoiceControl.queueIndex = 0;
-            VoiceControl.queue = [
+            /* VoiceControl.queue = [
                 'https://www.youtube.com/watch?v=IAGJ8lYl_5E',
                 'https://www.youtube.com/watch?v=kyULO1HILkE',
                 'https://www.youtube.com/watch?v=_sLHf38gY_4',
@@ -94,14 +93,10 @@ module.exports = {
                 '3780',
             ]; */
 
-            const numberOfPages = Math.ceil((VoiceControl.frontQueue.length - 1) / 10);
-            console.log('numberOfPages =', numberOfPages);
+            const numberOfPages = Math.ceil((VoiceControl.frontQueue.length) / 10);
 
             const startIndex = (requiredPage - 1) * 10 + 1;
             const endIndex = startIndex + 9;
-
-            console.log('startIndex =', startIndex);
-            console.log('endIndex =', endIndex);
 
             queue += `[${VoiceControl.frontQueue[0]}](${VoiceControl.queue[0]})\n`;
             queue += '\n\n**A SUIVRE : **\n\n';
@@ -110,7 +105,7 @@ module.exports = {
                     queue += `${index}. [${VoiceControl.frontQueue[index]}](${VoiceControl.queue[index]})\n\n`;
                 }
             }
-            // const currentSong = `[${VoiceControl.frontQueue[VoiceControl.queueIndex]}](${VoiceControl.queue[VoiceControl.queueIndex]})`;
+            // const currentSong = `[${VoiceControl.frontQueue[0]}](${VoiceControl.queue[0]})`;
             const totalDurationHms = await calculateTotalDuration(VoiceControl.durationQueue);
             const queueEmbed = createQueueEmbed(queue, totalDurationHms, VoiceControl.frontQueue.length.toString(), requiredPage.toString(), numberOfPages.toString());
             utils.sendMessageWithCustomEmbed(queueEmbed, message.channel);
