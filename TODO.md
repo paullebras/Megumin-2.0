@@ -12,7 +12,6 @@ play twitch / beepbox
 set prefix
 
 play:
-    with youtube tittle instead of url
     history (all things that have ever been played);
 
 soundlist
@@ -227,7 +226,9 @@ features:
     msg en cas d'erreur
     add message if bot not in bot channel when *leave* is called
     skip current song
-    play anisson
+    play:
+        anison
+        with youtube tittle instead of url
 
 code enhancing:
     switch pour les commandes
@@ -240,3 +241,4 @@ code enhancing:
 debug:
     queue
     --leave => Désolée, je ne suis pas dans un canal vocal.
+

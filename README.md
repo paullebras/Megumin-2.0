@@ -68,7 +68,7 @@ The bot can be controlled through commands issued in Discord channels. A list of
 
 ## Authors
 
-- [Paul LE BRAS](https://github.com/Sanguor) - Initial work
+- [Paul LE BRAS](https://github.com/paullebras) - Initial work
 
 
 ## Release History

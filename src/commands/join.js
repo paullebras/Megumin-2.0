@@ -6,7 +6,7 @@ module.exports = {
     description: 'Rejoins le salon vocal spécifié (id ou nom). Si aucun salon n\'est précisé : rejoins le salon actuel de l`utilisateur.',
     usage:'join <id ou nom du salon>',
     type: ':notes: Music',
-    async execute(message, args, VoiceControl) {
+    async execute(message, args) {
         try {
             let channelToJoin;
             const currentChannel = await voiceUtils.getUserCurrentChannelFromMsg(message)
@@ -26,7 +26,7 @@ module.exports = {
             }
 
             // join voice channel
-            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            await voiceUtils.joinVoice(channelToJoin, currentChannel)
                 .catch((error) => {
                     throw (error);
                 });

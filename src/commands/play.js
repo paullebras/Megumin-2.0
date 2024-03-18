@@ -1,8 +1,10 @@
-const ytdl = require('ytdl-core');
 const { EmbedBuilder } = require('discord.js');
 const voiceUtils = require('../utils/voiceUtils.js');
 const utils = require('../utils/utils.js');
-const services = require('../core/services.js');
+const youtubeUtils = require('../youtube/youtube.utils.js');
+const { AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
+const audioParams = require('../../config/audioParams.js');
+const ytdl = require('ytdl-core');
 
 function createPlayEmbed(videoInfo, videoUrl, username) {
     const title = videoInfo.videoDetails.title;
@@ -22,7 +24,6 @@ function createPlayEmbed(videoInfo, videoUrl, username) {
     return playEmbed;
 }
 
-
 module.exports = {
     name: 'play',
     description: 'Joue l\'audio d\'une vidéo sur Youtube. A l\'avenir, divers sites seront pris en charge.',
@@ -41,56 +42,59 @@ module.exports = {
             }
 
             let url;
+            let videoInfo;
 
-            if (!args[0].includes('http://') && !args[0].includes('https://')) {
-                const searchData = await services.searchYoutube(args);
-                const videoId = searchData.data.items[0].id.videoId;
-                url = `https://www.youtube.com/watch?v=${videoId}`;
-            }
-            else {
+            if (args[0].includes('http://') || args[0].includes('https://')) {
                 url = args[0];
+                VoiceControl.source = voiceUtils.getSourceFromUrl(url);
             }
-            if (!url.includes('youtube') && !url.includes('youtu.be')) {
-                throw ('La lecture de contenus extérieurs à YouTube n\'a pas encore été implémentée');
+            // si les arguments ne comportent pas d'url, on considère qu'il s'agit d'une recherche de vidéo youtube par mot clef
+            else {
+                url = await youtubeUtils.getYoutubeUrl(args);
+                VoiceControl.source = 'youtube';
             }
 
-            const videoInfo = await ytdl.getBasicInfo(url);
-            VoiceControl.queue.push(url);
-            VoiceControl.frontQueue.push(videoInfo.videoDetails.title);
-            VoiceControl.durationQueue.push(videoInfo.videoDetails.lengthSeconds);
+            let duration;
+            let title;
+            switch (VoiceControl.source) {
+                case 'youtube':
+                    videoInfo = await youtubeUtils.getYoutubeVideoInfos(url);
+                    duration = videoInfo.videoDetails.lengthSeconds;
+                    title = videoInfo.videoDetails.title;
+                    break;
+                case 'twitch':
+                    throw ('Désolé, la lecture de contenus Twitch est prévue mais n\'a pas encore été implémentée.');
+                default: {
+                    throw ('Désolé, je ne gère pas la lecture de contenus extérieurs à Youtube et Twitch. Vous pouvez en faire la demande dans #megumin-request');
+                }
+            }
 
-            if (VoiceControl.isPlaying == true) {
+            if (!videoInfo) {
+                throw 'Désolé, je ne parviens pas à récupérer les informations de ce contenu';
+            }
+
+            VoiceControl = voiceUtils.addElementToQueue(VoiceControl, url, title, duration);
+
+
+            if (VoiceControl.player.state.status === AudioPlayerStatus.Playing) {
                 return;
             }
 
             const channelToJoin = message.member.voice.channel;
             const currentChannel = await voiceUtils.getUserCurrentChannelFromMsg(message);
 
-            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            await voiceUtils.joinVoice(channelToJoin, currentChannel)
                 .catch((error) => {
                     throw (error);
                 });
 
-            // 1 << 62 gives the biggest number
-            // dlChunkSize: disabling chunking is recommended in discord bot
-            const audioParams = {
-                filter: 'audioonly',
-                fmt: 'mp3',
-                highWaterMark: 1 << 62,
-                liveBuffer: 1 << 62,
-                dlChunkSize: 0,
-                bitrate: 128,
-                quality: 'lowestaudio',
-            };
-            const readableStream = ytdl(VoiceControl.queue[VoiceControl.queueIndex], audioParams);
-            readableStream
-                .on('error', (error/* , format */) => {
-                    utils.logError(error.message);
+            const audioResource = createAudioResource(ytdl(url, audioParams));
+            await voiceUtils.playAudioResource(audioResource, VoiceControl)
+                .catch((error) => {
+                    throw (error);
                 });
-            await voiceUtils.playAudio(readableStream, VoiceControl, { volume: 1.0 }/* , message */, false);
             const playEmbed = createPlayEmbed(videoInfo, url, message.author.username);
             utils.sendMessageWithCustomEmbed(playEmbed, message.channel);
-
         }
         catch (error) {
             utils.logError(error, message.channel);
