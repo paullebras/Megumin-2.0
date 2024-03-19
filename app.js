@@ -3,10 +3,11 @@ const { readdirSync } = require('fs');
 const Path = require('path');
 const { Client, Collection, IntentsBitField } = require('discord.js');
 const utils = require('./src/utils/utils');
-const { createAudioPlayer, NoSubscriberBehavior, createAudioResource } = require('@discordjs/voice');
+const { createAudioResource } = require('@discordjs/voice');
 const voiceUtils = require('./src/utils/voiceUtils');
 const ytdl = require('ytdl-core');
 const audioParams = require('./config/audioParams');
+const audioPlayer = require('./src/core/Player');
 
 const myIntents = new IntentsBitField();
 myIntents.add(IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.GuildVoiceStates);
@@ -27,23 +28,14 @@ client.once('ready', () => {
     console.log('Megumin-2.0 is now online!');
 });
 
-const player = createAudioPlayer({
-    behaviors: {
-        // Default behavior is to pause when there are no active subscribers for an audio player.
-        // Can be configured to pause, stop, or just continue playing through the stream.
-        noSubscriber: NoSubscriberBehavior.Pause,
-    },
-});
-
 const VoiceControl = {
     queue: [],
     frontQueue: [],
     durationQueue: [],
-    player: player,
     source: '',
 };
 
-VoiceControl.player.on('idle', async () => {
+audioPlayer.player.on('idle', async () => {
     if (VoiceControl.source !== 'soundboard' && VoiceControl.source !== 'anison') {
         VoiceControl.queue.shift();
         VoiceControl.frontQueue.shift();
@@ -61,12 +53,12 @@ VoiceControl.player.on('idle', async () => {
     }
 });
 
-VoiceControl.player.on('stateChange', (oldState, newState) => {
+audioPlayer.player.on('stateChange', (oldState, newState) => {
     console.log(`Audio player transitioned from ${oldState.status} to ${newState.status}`);
 });
-VoiceControl.player.on('error', error => {
+audioPlayer.player.on('error', error => {
     // console.error(`Error: ${error.message} with resource ${error.resource/* .metadata.title */}`);
-    throw (error);
+    console.log(error);
 });
 
 
@@ -106,7 +98,7 @@ client.on('messageCreate', message => {
             client.commands.get('sound').execute(message, args, 'music', VoiceControl);
             break;
         case 'pause':
-            client.commands.get('pause').execute(message, VoiceControl);
+            client.commands.get('pause').execute(message);
             break;
         case 'ping':
             client.commands.get('ping').execute(message);
@@ -121,7 +113,7 @@ client.on('messageCreate', message => {
             client.commands.get('restart').execute(message);
             break;
         case 'resume':
-            client.commands.get('resume').execute(message, VoiceControl);
+            client.commands.get('resume').execute(message);
             break;
         case 'roll':
             client.commands.get('roll').execute(message, args);
@@ -142,7 +134,7 @@ client.on('messageCreate', message => {
             client.commands.get('soundlist').execute(message, args);
             break;
         case 'stop':
-            client.commands.get('stop').execute(message, VoiceControl);
+            client.commands.get('stop').execute(message);
             break;
         default: {
             const error = 'Désolée, je ne sais pas encore faire ça.\nSi c\'est important, tu peux en faire la demande ici : <#751202233105907763>.';
