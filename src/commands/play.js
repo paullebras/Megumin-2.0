@@ -5,6 +5,7 @@ const youtubeUtils = require('../youtube/youtube.utils.js');
 const { AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const audioParams = require('../../config/audioParams.js');
 const ytdl = require('ytdl-core');
+const audioPlayer = require('../core/Player.js');
 
 function createPlayEmbed(videoInfo, videoUrl, username) {
     const title = videoInfo.videoDetails.title;
@@ -76,7 +77,7 @@ module.exports = {
             VoiceControl = voiceUtils.addElementToQueue(VoiceControl, url, title, duration);
 
 
-            if (VoiceControl.player.state.status === AudioPlayerStatus.Playing) {
+            if (audioPlayer.player.state.status === AudioPlayerStatus.Playing) {
                 return;
             }
 
