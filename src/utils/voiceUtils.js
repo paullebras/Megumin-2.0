@@ -1,6 +1,7 @@
 // const ytdl = require('ytdl-core');
 const { joinVoiceChannel, getVoiceConnection, entersState } = require('@discordjs/voice');
 const { AudioPlayerStatus } = require('@discordjs/voice');
+const audioPlayer = require('../core/Player.js');
 
 module.exports = {
 
@@ -58,51 +59,12 @@ module.exports = {
     },
 
 
-    pausePlayer: function(player) {
-        return new Promise((resolve, reject) => {
-            if (player !== null) {
-                player.pause();
-                resolve();
-            }
-            else {
-                reject('Je ne joue actuellement aucune musique.');
-            }
-        });
-    },
-
-
-    resumePlayer: function(player) {
-        return new Promise((resolve, reject) => {
-            if (player !== null) {
-                player.unpause();
-                resolve();
-            }
-            else {
-                reject('Je ne joue actuellement aucune musique.');
-            }
-        });
-    },
-
-
-    stopPlayer: function(player) {
-        return new Promise((resolve, reject) => {
-            if (player !== null) {
-                player.stop();
-                resolve();
-            }
-            else {
-                reject('Je ne joue actuellement aucune musique.');
-            }
-        });
-    },
-
-
     playAudioResource: function(audioResource, VoiceControl) {
         return new Promise((resolve) => {
             const connection = getVoiceConnection(process.env.SERVER_ID);
-            VoiceControl.player.play(audioResource);
+            audioPlayer.player.play(audioResource);
             try {
-                entersState(VoiceControl.player, AudioPlayerStatus.Playing, 5_000);
+                entersState(audioPlayer.player, AudioPlayerStatus.Playing, 5_000);
                 // The player has entered the Playing state within 5 seconds
                 console.log('Playback has started!');
                 resolve();
@@ -113,7 +75,7 @@ module.exports = {
                 // 2) 5 seconds have passed
                 console.error(error);
             }
-            VoiceControl.subscription = connection.subscribe(VoiceControl.player);
+            VoiceControl.subscription = connection.subscribe(audioPlayer.player);
         });
     },
 
