@@ -1,14 +1,14 @@
-const voiceUtils = require('../utils/voiceUtils.js');
 const utils = require('../utils/utils.js');
+const audioPlayer = require('../core/Player.js');
 
 module.exports = {
     name: 'pause',
     description: 'Met en pause l`audio en cours de lecture.',
     usage:'pause',
     type: ':notes: Music',
-    async execute(message, VoiceControl) {
+    async execute(message) {
         try {
-            await voiceUtils.pausePlayer(VoiceControl.player)
+            await audioPlayer.pausePlayer()
                 .catch((error) => {
                     throw error;
                 });
