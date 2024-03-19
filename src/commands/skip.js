@@ -3,6 +3,7 @@ const utils = require('../utils/utils.js');
 const audioParams = require('../../config/audioParams.js');
 const { createAudioResource } = require('@discordjs/voice');
 const ytdl = require('ytdl-core');
+const audioPlayer = require('../core/Player.js');
 
 module.exports = {
     name: 'skip',
@@ -16,7 +17,7 @@ module.exports = {
                 return;
             }
             if (VoiceControl.queue.length === 1) {
-                await voiceUtils.stopPlayer(VoiceControl.player);
+                await audioPlayer.stopPlayer();
                 VoiceControl.queue.shift();
                 VoiceControl.frontQueue.shift();
                 utils.reactMessage('✅', message);
