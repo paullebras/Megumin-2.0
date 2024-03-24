@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "start-dev": "nodemon server.js"
+    "watch": "nodemon server.js",
+    "deploy-commands": "node .\\scripts\\deploy-commands.js",
+    "delete-commands": "node .\\scripts\\delete-commands.js"
+
   },
   "repository": {
     "type": "git",

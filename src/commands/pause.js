@@ -1,21 +1,22 @@
-const utils = require('../utils/utils.js');
 const audioPlayer = require('../core/Player.js');
+const { SlashCommandBuilder } = require('discord.js');
+
+const name = 'pause';
+const description = 'Met en pause l`audio en cours de lecture.';
 
 module.exports = {
-    name: 'pause',
-    description: 'Met en pause l`audio en cours de lecture.',
-    usage:'pause',
+    name: name,
+    description: description,
+    usage: 'pause',
     type: ':notes: Music',
-    async execute(message) {
-        try {
-            await audioPlayer.pausePlayer()
-                .catch((error) => {
-                    throw error;
-                });
-            utils.reactMessage('✅', message);
-        }
-        catch (error) {
-            utils.logError(error, message.channel);
-        }
+    data: new SlashCommandBuilder()
+        .setName(name)
+        .setDescription(description),
+    async execute() {
+        await audioPlayer.pausePlayer()
+            .catch((error) => {
+                throw error;
+            });
+        return { content: '`Playback paused` ✅' };
     },
 };
