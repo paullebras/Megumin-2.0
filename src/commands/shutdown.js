@@ -1,16 +1,17 @@
-const utils = require('../utils/utils.js');
+const { SlashCommandBuilder } = require('discord.js');
+
+const name = 'shutdown';
+const description = '/!\\ Cette commande arrête le bot. Une intervention manuelle sera nécessaire pour le redémarrer /!\\.';
 
 module.exports = {
-    name: 'shutdown',
-    description: '/!\\ Cette commande arrête le bot. Une intervention manuelle sera nécessaire pour le redémarrer /!\\.',
+    name: name,
+    description: description,
     usage:'shutdown',
     type: ':wrench: Tools',
-    execute(message) {
-        try {
+    data: new SlashCommandBuilder()
+        .setName(name)
+        .setDescription(description),
+    execute() {
             process.exit();
-        }
-        catch (error) {
-            utils.logError(error, message.channel);
-        }
     },
 };
