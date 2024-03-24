@@ -1,23 +1,24 @@
-const utils = require('../utils/utils.js');
+const { SlashCommandBuilder } = require('discord.js');
+
+const name = 'clear';
+const description = 'Nettoie la file d\'attente.';
 
 module.exports = {
-    name: 'clear',
-    description: 'Nettoie la file d\'attente.',
-    usage:'clear',
+    name: name,
+    description: description,
+    usage: 'clear',
     type: ':notes: Music',
-    execute(message, VoiceControl) {
-        try {
-            if (VoiceControl.frontQueue.length == 0) {
-                message.channel.send('La queue est déjà vide.');
-            }
-            else {
-                VoiceControl.queue = [];
-                VoiceControl.frontQueue = [];
-                utils.reactMessage('✅', message);
-            }
+    data: new SlashCommandBuilder()
+        .setName(name)
+        .setDescription(description),
+    execute(interaction, VoiceControl) {
+        if (!VoiceControl.frontQueue.length) {
+            interaction.channel.send('La queue est déjà vide.');
         }
-        catch (error) {
-            utils.logError(error, message.channel);
+        else {
+            VoiceControl.queue = [];
+            VoiceControl.frontQueue = [];
         }
+        return { content: '`Queue cleared` ✅' };
     },
 };

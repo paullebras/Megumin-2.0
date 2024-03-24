@@ -1,32 +1,33 @@
 const voiceUtils = require('../utils/voiceUtils.js');
-const utils = require('../utils/utils.js');
 const { createAudioResource } = require('@discordjs/voice');
+const { SlashCommandBuilder } = require('discord.js');
+
+const name = 'anison';
+const description = 'Joue la webradio ANISON.FM : https://en.anison.fm/.';
 
 module.exports = {
-    name: 'anison',
-    description: 'Joue la webradio ANISON.FM : https://en.anison.fm/.',
+    name: name,
+    description: description,
     usage: 'anison',
     type: ':notes: Music',
-    async execute(message, VoiceControl) {
-        try {
-            const channelToJoin = message.member.voice.channel;
-            const currentChannel = await voiceUtils.getUserCurrentChannelFromMsg(message);
-            const url = 'https://pool.anison.fm/AniSonFM(320)';
+    data: new SlashCommandBuilder()
+        .setName(name)
+        .setDescription(description),
+    async execute(interaction, VoiceControl) {
+        const channelToJoin = interaction.member.voice.channel;
+        const currentChannel = await interaction.voiceChannel;
+        const url = 'https://pool.anison.fm/AniSonFM(320)';
 
-            await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
-                .catch((error) => {
-                    throw (error);
-                });
-            VoiceControl.source = 'anison';
-            const audioResource = createAudioResource(url);
-            await voiceUtils.playAudioResource(audioResource, VoiceControl)
-                .catch((error) => {
-                    throw (error);
-                });
-            utils.reactMessage('✅', message);
-        }
-        catch (error) {
-            utils.logError(error, message.channel);
-        }
+        await voiceUtils.joinVoice(channelToJoin, currentChannel, VoiceControl)
+            .catch((error) => {
+                throw (error);
+            });
+        VoiceControl.source = 'anison';
+        const audioResource = createAudioResource(url);
+        await voiceUtils.playAudioResource(audioResource, VoiceControl)
+            .catch((error) => {
+                throw (error);
+            });
+        return { content: '`Anison playback has started` ✅' };
     },
 };

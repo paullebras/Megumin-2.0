@@ -2,12 +2,15 @@ const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
 
-    logError: function(error, channel) {
-        const errorEmbed = new EmbedBuilder()
+    createErrorEmbed: function(error) {
+        return new EmbedBuilder()
             .setColor(0x0000)
-            .setDescription(`:x:\xa0\xa0${error}`);
+            .setDescription(`:x:\xa0\xa0${error.message || error}`);
+    },
 
-        console.error(error);
+    logError: function(error, channel) {
+        const errorEmbed = this.createErrorEmbed(error);
+        console.error(error.message || error);
         channel.send({ embeds: [errorEmbed] });
         return;
     },
@@ -18,27 +21,15 @@ module.exports = {
     },
 
 
-    sendInfoMessage: function(text, channel) {
-        const messageEmbed = new EmbedBuilder()
+    createInfoEmbed: function(text) {
+        return new EmbedBuilder()
             .setColor(0x0000)
             .setDescription(`:information_source:\xa0\xa0${text}`);
-
-        channel.send({ embeds: [messageEmbed] });
-        return;
     },
 
 
     sendMessageWithCustomEmbed: function(customEmbed, channel) {
         channel.send({ embeds: [customEmbed] });
-        return;
-    },
-
-
-    reactMessage: function(reaction, message) {
-        message.react(reaction)
-            .catch((error) => {
-                this.logError(error, message.channel);
-            });
         return;
     },
 
