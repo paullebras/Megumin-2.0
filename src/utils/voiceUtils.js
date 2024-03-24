@@ -22,10 +22,10 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 if (!requestedChannel && !currentChannel) {
-                    throw ('Désolée, l\'un de nous deux doit être dans un canal vocal');
+                    throw new Error('Désolée, l\'un de nous deux doit être dans un canal vocal');
                 }
                 if (requestedChannel) {
-                    if (currentChannel != requestedChannel) {
+                    if (currentChannel !== requestedChannel) {
                         joinVoiceChannel({
                             channelId: requestedChannel.id,
                             guildId: requestedChannel.guild.id,
@@ -66,7 +66,6 @@ module.exports = {
             try {
                 entersState(audioPlayer.player, AudioPlayerStatus.Playing, 5_000);
                 // The player has entered the Playing state within 5 seconds
-                console.log('Playback has started!');
                 resolve();
             }
             catch (error) {

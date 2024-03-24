@@ -109,3 +109,4 @@ credentials*
 index*
 test*
 client_secret.json
+*.csv
