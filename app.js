@@ -1,20 +1,23 @@
 require('dotenv').config();
 const { readdirSync } = require('fs');
 const Path = require('path');
-const { Client, Collection, IntentsBitField } = require('discord.js');
-const utils = require('./src/utils/utils');
+const { Client, Collection, IntentsBitField, GatewayIntentBits, Events } = require('discord.js');
 const { createAudioResource } = require('@discordjs/voice');
 const voiceUtils = require('./src/utils/voiceUtils');
 const ytdl = require('ytdl-core');
 const audioParams = require('./config/audioParams');
 const audioPlayer = require('./src/core/Player');
+const commandsController = require('./src/commands.controller');
 
-const myIntents = new IntentsBitField();
-myIntents.add(IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.GuildVoiceStates);
+const intents = new IntentsBitField().add(
+    GatewayIntentBits.Guilds,
+    IntentsBitField.Flags.Guilds,
+    IntentsBitField.Flags.GuildMessages,
+    IntentsBitField.Flags.MessageContent,
+    IntentsBitField.Flags.GuildVoiceStates,
+);
 
-const client = new Client({ intents: myIntents });
-
-const prefix = process.env.PREFIX;
+const client = new Client({ intents: intents });
 
 client.commands = new Collection();
 const commandFiles = readdirSync(Path.join('src', 'commands')).filter(file => file.endsWith('.js'));
@@ -24,8 +27,8 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 
-client.once('ready', () => {
-    console.log('Megumin-2.0 is now online!');
+client.once(Events.ClientReady, readyClient => {
+    console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
 const VoiceControl = {
@@ -35,6 +38,7 @@ const VoiceControl = {
     source: '',
 };
 
+// TODO - Move player listeners to Player constructor ? It requires to have acess to VoiceControl inside of player
 audioPlayer.player.on('idle', async () => {
     if (VoiceControl.source !== 'soundboard' && VoiceControl.source !== 'anison') {
         VoiceControl.queue.shift();
@@ -54,94 +58,28 @@ audioPlayer.player.on('idle', async () => {
 });
 
 audioPlayer.player.on('stateChange', (oldState, newState) => {
-    console.log(`Audio player transitioned from ${oldState.status} to ${newState.status}`);
+    console.log(`Audio player : ${oldState.status} => ${newState.status}`);
 });
 audioPlayer.player.on('error', error => {
-    // console.error(`Error: ${error.message} with resource ${error.resource/* .metadata.title */}`);
-    console.log(error);
+    console.error(error);
 });
 
 
-client.on('messageCreate', message => {
-    // const guild = client.guilds.fetch(process.env.SERVER_ID || credentials.server_id);
+client.on(Events.InteractionCreate, async interaction => {
+    if (!interaction.isChatInputCommand()) return;
 
-    if (!message.content.startsWith(prefix) || message.author.bot) {
+    commandsController(VoiceControl, null, interaction);
+});
+
+
+client.on(Events.MessageCreate, message => {
+    if (!message.content.startsWith(process.env.PREFIX) || message.author.bot) {
         // if (message.content.includes('x.com')) {
         //     utils.sendBasicMessage(utils.createFxTwitterLink(message.content), message.channel);
         // }
         return;
     }
-
-    console.log(message.author.username + ' : ' + message.content);
-
-    const args = message.content.slice(prefix.length).split(/ +/);
-    const command = args.shift().toLowerCase();
-
-
-    switch (command) {
-        case 'anison':
-            client.commands.get('anison').execute(message, VoiceControl);
-            break;
-        case 'clear':
-            client.commands.get('clear').execute(message, VoiceControl);
-            break;
-        case 'help':
-            client.commands.get('help').execute(message, args);
-            break;
-        case 'join':
-            client.commands.get('join').execute(message, args);
-            break;
-        case 'leave':
-            client.commands.get('leave').execute(message, VoiceControl);
-            break;
-        case 'music':
-            client.commands.get('sound').execute(message, args, 'music', VoiceControl);
-            break;
-        case 'pause':
-            client.commands.get('pause').execute(message);
-            break;
-        case 'ping':
-            client.commands.get('ping').execute(message);
-            break;
-        case 'play':
-            client.commands.get('play').execute(message, args, VoiceControl);
-            break;
-        case 'queue':
-            client.commands.get('queue').execute(message, args, VoiceControl);
-            break;
-        case 'restart':
-            client.commands.get('restart').execute(message);
-            break;
-        case 'resume':
-            client.commands.get('resume').execute(message);
-            break;
-        case 'roll':
-            client.commands.get('roll').execute(message, args);
-            break;
-        case 'savelist':
-            client.commands.get('savelist').execute(message, args, client, VoiceControl);
-            break;
-        case 'shutdown':
-            client.commands.get('shutdown').execute(message);
-            break;
-        case 'skip':
-            client.commands.get('skip').execute(message, VoiceControl);
-            break;
-        case 'sound':
-            client.commands.get('sound').execute(message, args, 'sound', VoiceControl);
-            break;
-        case 'soundlist':
-            client.commands.get('soundlist').execute(message, args);
-            break;
-        case 'stop':
-            client.commands.get('stop').execute(message);
-            break;
-        default: {
-            const error = 'Désolée, je ne sais pas encore faire ça.\nSi c\'est important, tu peux en faire la demande ici : <#751202233105907763>.';
-            utils.logError(error, message.channel);
-            break;
-        }
-    }
+    commandsController(VoiceControl, message, null);
 });
 
 client.login(process.env.DISCORD_TOKEN);
