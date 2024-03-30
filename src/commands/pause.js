@@ -1,6 +1,7 @@
-const audioPlayer = require('../core/Player.js');
+const Player = require('../core/Player');
 const { SlashCommandBuilder } = require('discord.js');
 
+const audioPlayer = Player.getInstance();
 const name = 'pause';
 const description = 'Met en pause l`audio en cours de lecture.';
 

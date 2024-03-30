@@ -2,9 +2,10 @@ const voiceUtils = require('../utils/voiceUtils.js');
 const audioParams = require('../../config/audioParams.js');
 const { createAudioResource } = require('@discordjs/voice');
 const ytdl = require('ytdl-core');
-const audioPlayer = require('../core/Player.js');
+const Player = require('../core/Player');
 const { SlashCommandBuilder } = require('discord.js');
 
+const audioPlayer = Player.getInstance();
 const name = 'skip';
 const description = 'Joue le prochain audio contenu dans la file d\'attente.';
 
