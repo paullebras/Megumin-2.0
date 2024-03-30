@@ -6,7 +6,7 @@ const { createAudioResource } = require('@discordjs/voice');
 const voiceUtils = require('./src/utils/voiceUtils');
 const ytdl = require('ytdl-core');
 const audioParams = require('./config/audioParams');
-const audioPlayer = require('./src/core/Player');
+const Player = require('./src/core/Player');
 const commandsController = require('./src/commands.controller');
 
 const intents = new IntentsBitField().add(
@@ -37,6 +37,7 @@ const VoiceControl = {
     durationQueue: [],
     source: '',
 };
+const audioPlayer = Player.getInstance();
 
 // TODO - Move player listeners to Player constructor ? It requires to have acess to VoiceControl inside of player
 audioPlayer.player.on('idle', async () => {
