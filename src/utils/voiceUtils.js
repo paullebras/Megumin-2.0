@@ -1,7 +1,9 @@
 // const ytdl = require('ytdl-core');
 const { joinVoiceChannel, getVoiceConnection, entersState } = require('@discordjs/voice');
 const { AudioPlayerStatus } = require('@discordjs/voice');
-const audioPlayer = require('../core/Player.js');
+const Player = require('../core/Player.js');
+
+const audioPlayer = Player.getInstance();
 
 module.exports = {
 

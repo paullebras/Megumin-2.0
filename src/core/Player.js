@@ -1,6 +1,6 @@
 const { createAudioPlayer, NoSubscriberBehavior, AudioPlayerStatus } = require('@discordjs/voice');
 
-class AudioPlayer {
+class Player {
     constructor() {
         this.player = createAudioPlayer({
             behaviors: {
@@ -9,6 +9,13 @@ class AudioPlayer {
                 noSubscriber: NoSubscriberBehavior.Pause,
             },
         });
+    }
+
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new Player();
+        }
+        return this.instance;
     }
 
     pausePlayer() {
@@ -49,5 +56,4 @@ class AudioPlayer {
 }
 
 // Singleton pattern
-const audioPlayerInstance = new AudioPlayer();
-module.exports = audioPlayerInstance;
+module.exports = Player;
