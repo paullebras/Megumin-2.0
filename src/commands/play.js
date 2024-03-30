@@ -5,7 +5,9 @@ const youtubeUtils = require('../youtube/youtube.utils.js');
 const { AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const audioParams = require('../../config/audioParams.js');
 const ytdl = require('ytdl-core');
-const audioPlayer = require('../core/Player.js');
+const Player = require('../core/Player');
+
+const audioPlayer = Player.getInstance();
 
 function createPlayEmbed(videoInfo, videoUrl, username) {
     const title = videoInfo.videoDetails.title;
