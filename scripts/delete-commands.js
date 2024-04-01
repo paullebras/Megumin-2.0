@@ -11,9 +11,10 @@ const commandId = '1219764791644520610';
 const rest = new REST().setToken(discordToken);
 
 // for guild-based commands
-rest.delete(Routes.applicationGuildCommand(clientId, guildId, commandId))
-	.then(() => console.log('Successfully deleted guild command'))
-	.catch(console.error);
+rest
+  .delete(Routes.applicationGuildCommand(clientId, guildId, commandId))
+  .then(() => console.log('Successfully deleted guild command'))
+  .catch(console.error);
 
 // for global commands
 // rest.delete(Routes.applicationCommand(clientId, 'commandId'))
