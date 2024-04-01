@@ -1,31 +1,44 @@
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 const utils = require('../utils/utils.js');
 
-function createQueueEmbed(content, duration, numberOfSongs, requiredPage, numberOfPages) {
-    const playEmbed = new EmbedBuilder()
-        .setColor(0x000000)
-        .setDescription(content)
-        .setTitle('Playlist de l\'Empire des Connards')
-        .setURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-        // .setThumbnail('attachment://meguminthumbsup.png')
-        .setThumbnail('https://cdn3.emoji.gg/emojis/9899-meguminthumbsup.png')
-        .addFields({ name: '\u200b\nDurée', value: duration, inline: true })
-        .addFields({ name: '\u200b\nTaille', value: numberOfSongs, inline: true })
-        .addFields({ name: '\u200b\nPage', value: `${requiredPage}/${numberOfPages}`, inline: true });
+function createQueueEmbed(
+  content,
+  duration,
+  numberOfSongs,
+  requiredPage,
+  numberOfPages,
+) {
+  const playEmbed = new EmbedBuilder()
+    .setColor(0x000000)
+    .setDescription(content)
+    .setTitle("Playlist de l'Empire des Connards")
+    .setURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+    // .setThumbnail('attachment://meguminthumbsup.png')
+    .setThumbnail('https://cdn3.emoji.gg/emojis/9899-meguminthumbsup.png')
+    .addFields({ name: '\u200b\nDurée', value: duration, inline: true })
+    .addFields({
+      name: '\u200b\nTaille',
+      value: numberOfSongs,
+      inline: true,
+    })
+    .addFields({
+      name: '\u200b\nPage',
+      value: `${requiredPage}/${numberOfPages}`,
+      inline: true,
+    });
 
-    return playEmbed;
+  return playEmbed;
 }
 
-
 async function calculateTotalQueueDuration(durations) {
-    let durationSeconds = 0;
+  let durationSeconds = 0;
 
-    for (const time of durations) {
-        durationSeconds += parseInt(time);
-    }
-    const durationHms = utils.secondsToHms(durationSeconds);
+  for (const time of durations) {
+    durationSeconds += parseInt(time);
+  }
+  const durationHms = utils.secondsToHms(durationSeconds);
 
-    return durationHms;
+  return durationHms;
 }
 
 const name = 'queue';
@@ -34,33 +47,35 @@ const inputDescription = '<page number>';
 const usage = `${name} or ${name} ${inputDescription}`;
 
 module.exports = {
-    name: name,
-    description: description,
-    usage: `${name} ${inputDescription}`,
-    type: ':notes: Music',
-    data: new SlashCommandBuilder()
-        .setName(name)
-        .setDescription(description)
-        .addStringOption(option =>
-            option.setName('input')
-                .setDescription(inputDescription)),
-    async execute(args, VoiceControl) {
-        if (!VoiceControl.frontQueue.length) {
-            const emptyQueuInfoEmbed = utils.createInfoEmbed('Il n\'y a aucune vidéo en attente de lecture.');
-            return { embeds: [emptyQueuInfoEmbed] };
-        }
+  name: name,
+  description: description,
+  usage: `${name} ${inputDescription}`,
+  type: ':notes: Music',
+  data: new SlashCommandBuilder()
+    .setName(name)
+    .setDescription(description)
+    .addStringOption((option) =>
+      option.setName('input').setDescription(inputDescription),
+    ),
+  async execute(args, VoiceControl) {
+    if (!VoiceControl.frontQueue.length) {
+      const emptyQueuInfoEmbed = utils.createInfoEmbed(
+        "Il n'y a aucune vidéo en attente de lecture.",
+      );
+      return { embeds: [emptyQueuInfoEmbed] };
+    }
 
-        if (args.length && isNaN(args[0])) {
-            throw new Error(`Queue needs a number. Usage : ${usage}`);
-        }
-        const requiredPage = !args.length ? 1 : args[0];
+    if (args.length && isNaN(args[0])) {
+      throw new Error(`Queue needs a number. Usage : ${usage}`);
+    }
+    const requiredPage = !args.length ? 1 : args[0];
 
-        // TODO Remove songs from queue after they have been played ? => Fixes at least previous issue since current song would always be at index 0 => DONE
-        // TODO Handle auto play next song => DONE
-        // TODO Handle play with no args if songs are still in queue ?
-        // TODO find how to use local images in embed : https://stackoverflow.com/questions/51199950/how-do-i-use-a-local-image-on-a-discord-js-rich-embed
-        let queue = '\u200b\n**EN COURS : **\n\n';
-        /* VoiceControl.queue = [
+    // TODO Remove songs from queue after they have been played ? => Fixes at least previous issue since current song would always be at index 0 => DONE
+    // TODO Handle auto play next song => DONE
+    // TODO Handle play with no args if songs are still in queue ?
+    // TODO find how to use local images in embed : https://stackoverflow.com/questions/51199950/how-do-i-use-a-local-image-on-a-discord-js-rich-embed
+    let queue = '\u200b\n**EN COURS : **\n\n';
+    /* VoiceControl.queue = [
             'https://www.youtube.com/watch?v=IAGJ8lYl_5E',
             'https://www.youtube.com/watch?v=kyULO1HILkE',
             'https://www.youtube.com/watch?v=_sLHf38gY_4',
@@ -104,21 +119,29 @@ module.exports = {
             '3780',
         ]; */
 
-        const numberOfPages = Math.ceil((VoiceControl.frontQueue.length) / 10);
+    const numberOfPages = Math.ceil(VoiceControl.frontQueue.length / 10);
 
-        const startIndex = (requiredPage - 1) * 10 + 1;
-        const endIndex = startIndex + 9;
+    const startIndex = (requiredPage - 1) * 10 + 1;
+    const endIndex = startIndex + 9;
 
-        queue += `[${VoiceControl.frontQueue[0]}](${VoiceControl.queue[0]})\n`;
-        queue += '\n\n**A SUIVRE : **\n\n';
-        for (let index = startIndex; index <= endIndex; index++) {
-            if (VoiceControl.frontQueue[index]) {
-                queue += `${index}. [${VoiceControl.frontQueue[index]}](${VoiceControl.queue[index]})\n\n`;
-            }
-        }
-        // const currentSong = `[${VoiceControl.frontQueue[0]}](${VoiceControl.queue[0]})`;
-        const totalDurationHms = await calculateTotalQueueDuration(VoiceControl.durationQueue);
-        const queueEmbed = createQueueEmbed(queue, totalDurationHms, VoiceControl.frontQueue.length.toString(), requiredPage.toString(), numberOfPages.toString());
-        return { embeds: [queueEmbed] };
-    },
+    queue += `[${VoiceControl.frontQueue[0]}](${VoiceControl.queue[0]})\n`;
+    queue += '\n\n**A SUIVRE : **\n\n';
+    for (let index = startIndex; index <= endIndex; index++) {
+      if (VoiceControl.frontQueue[index]) {
+        queue += `${index}. [${VoiceControl.frontQueue[index]}](${VoiceControl.queue[index]})\n\n`;
+      }
+    }
+    // const currentSong = `[${VoiceControl.frontQueue[0]}](${VoiceControl.queue[0]})`;
+    const totalDurationHms = await calculateTotalQueueDuration(
+      VoiceControl.durationQueue,
+    );
+    const queueEmbed = createQueueEmbed(
+      queue,
+      totalDurationHms,
+      VoiceControl.frontQueue.length.toString(),
+      requiredPage.toString(),
+      numberOfPages.toString(),
+    );
+    return { embeds: [queueEmbed] };
+  },
 };

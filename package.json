@@ -8,8 +8,8 @@
     "start": "node server.js",
     "watch": "nodemon server.js",
     "deploy-commands": "node .\\scripts\\deploy-commands.js",
-    "delete-commands": "node .\\scripts\\delete-commands.js"
-
+    "delete-commands": "node .\\scripts\\delete-commands.js",
+    "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "eslint": "^8.47.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "prettier": "^3.2.5"
   }
 }
