@@ -73,6 +73,7 @@ const rest = new REST().setToken(discordToken);
     );
     console.log('data =', data);
     console.log(
+      // @ts-ignore
       `Successfully reloaded ${data.length} application (/) commands.`,
     );
   } catch (error) {
