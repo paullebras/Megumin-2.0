@@ -8,7 +8,7 @@ const {
   GatewayIntentBits,
   Events,
 } = require('discord.js');
-const { createAudioResource } = require('@discordjs/voice');
+const { createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 const voiceUtils = require('./src/utils/voiceUtils');
 const ytdl = require('ytdl-core');
 const audioParams = require('./config/audioParams');
@@ -25,6 +25,7 @@ const intents = new IntentsBitField().add(
 
 const client = new Client({ intents: intents });
 
+// @ts-ignore
 client.commands = new Collection();
 const commandFiles = readdirSync(Path.join('src', 'commands')).filter((file) =>
   file.endsWith('.js'),
@@ -32,6 +33,7 @@ const commandFiles = readdirSync(Path.join('src', 'commands')).filter((file) =>
 
 for (const file of commandFiles) {
   const command = require(Path.join(__dirname, 'src', 'commands', file));
+  // @ts-ignore
   client.commands.set(command.name, command);
 }
 
@@ -48,7 +50,7 @@ const VoiceControl = {
 const audioPlayer = Player.getInstance();
 
 // TODO - Move player listeners to Player constructor ? It requires to have acess to VoiceControl inside of player
-audioPlayer.player.on('idle', async () => {
+audioPlayer.player.on(AudioPlayerStatus.Idle, async () => {
   if (
     VoiceControl.source !== 'soundboard' &&
     VoiceControl.source !== 'anison'
