@@ -16,11 +16,9 @@ module.exports = {
     const currentChannel = await interaction.voiceChannel;
     const url = 'https://pool.anison.fm/AniSonFM(320)';
 
-    await voiceUtils
-      .joinVoice(channelToJoin, currentChannel, VoiceControl)
-      .catch((error) => {
-        throw error;
-      });
+    await voiceUtils.joinVoice(channelToJoin, currentChannel).catch((error) => {
+      throw error;
+    });
     VoiceControl.source = 'anison';
     const audioResource = createAudioResource(url);
     await voiceUtils
