@@ -4,7 +4,7 @@ const config = {
   tabWidth: 2,
   semi: true,
   singleQuote: true,
-  endOfLine: 'crlf',
+  endOfLine: 'lf',
 };
 
 module.exports = config;
