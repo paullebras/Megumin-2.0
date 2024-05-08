@@ -1,4 +1,4 @@
-var axios = require('axios').default;
+const axios = require('axios').default;
 
 const apiKey = process.env.YOUTUBE_API_KEY;
 const baseUrl = process.env.YOUTUBE_API_URL;
