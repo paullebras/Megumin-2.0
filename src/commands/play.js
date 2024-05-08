@@ -18,7 +18,7 @@ function createPlayEmbed(videoInfo, videoUrl, username) {
   const playEmbed = new EmbedBuilder()
     .setColor(0x000000)
     .setTitle(title)
-    .setURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+    .setURL('videoUrl')
     .setDescription(channel)
     .setThumbnail(thumbnail)
     .addFields({
