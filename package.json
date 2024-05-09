@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Sanguor/Megumin-2.0#readme",
   "dependencies": {
-    "@discordjs/voice": "^0.16.1",
+    "@discordjs/voice": "^0.17.0",
     "axios": "^1.6.8",
     "discord.js": "^14.15.2",
     "dotenv": "^16.4.5",
