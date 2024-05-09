@@ -10,13 +10,14 @@ async function handleError(interaction, command, args, message, error) {
   if (interaction) {
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp(errorResponse);
-      console.error(error);
+      console.error('error after interaction response (or interaction was deferred):', error);
     } else {
       await interaction.reply(errorResponse);
-      console.error(error);
+      console.error('error before interaction response:', error);
     }
   }
   if (message) {
+    console.log('error during command handling:', error);
     utils.logError(error, message.channel);
   }
 }
@@ -55,7 +56,7 @@ async function commandsController(
   }
 
   const userInput = `${fakeInteraction.member.user.username} : ${command} ${args.join(' ') || ''}`;
-  console.log(userInput);
+  console.log('user input =', userInput);
 
   const commands = fakeInteraction.client.commands;
   try {
