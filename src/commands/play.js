@@ -18,7 +18,7 @@ function createPlayEmbed(videoInfo, videoUrl, username) {
   const playEmbed = new EmbedBuilder()
     .setColor(0x000000)
     .setTitle(title)
-    .setURL('videoUrl')
+    .setURL(videoUrl)
     .setDescription(channel)
     .setThumbnail(thumbnail)
     .addFields({
@@ -72,6 +72,7 @@ module.exports = {
     // si les arguments ne comportent pas d'url, on considère qu'il s'agit d'une recherche de vidéo youtube par mot clef
     else {
       url = await youtubeUtils.getYoutubeUrl(args);
+      console.log('url =', url);
       VoiceControl.source = 'youtube';
     }
 

@@ -76,7 +76,7 @@ audioPlayer.player.on('stateChange', (oldState, newState) => {
   console.log(`Audio player : ${oldState.status} => ${newState.status}`);
 });
 audioPlayer.player.on('error', (error) => {
-  console.error(error);
+  console.error('Audio player emitted an error:', error);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
