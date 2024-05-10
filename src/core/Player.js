@@ -10,7 +10,7 @@ class Player {
 
   constructor() {
     if (!Player.#isInternalConstructing) {
-      throw new TypeError("PrivateConstructor is not constructable");
+      throw new TypeError('PrivateConstructor is not constructable');
     }
     Player.#isInternalConstructing = false;
 
