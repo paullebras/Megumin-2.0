@@ -10,7 +10,10 @@ async function handleError(interaction, command, args, message, error) {
   if (interaction) {
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp(errorResponse);
-      console.error('error after interaction response (or interaction was deferred):', error);
+      console.error(
+        'error after interaction response (or interaction was deferred):',
+        error,
+      );
     } else {
       await interaction.reply(errorResponse);
       console.error('error before interaction response:', error);

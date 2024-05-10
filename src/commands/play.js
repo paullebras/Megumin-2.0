@@ -106,7 +106,9 @@ module.exports = {
       duration,
     );
 
-    if (audioPlayer.player.state.status === AudioPlayerStatus.Playing) {
+    const playerStatus = audioPlayer.player.state.status;
+    const { Playing, Paused } = AudioPlayerStatus;
+    if (playerStatus === Playing || playerStatus === Paused) {
       return { content: '`Added to the playlist` ✅' };
     }
 
