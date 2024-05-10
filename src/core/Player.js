@@ -5,7 +5,15 @@ const {
 } = require('@discordjs/voice');
 
 class Player {
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_properties#simulating_private_constructors
+  static #isInternalConstructing = false;
+
   constructor() {
+    if (!Player.#isInternalConstructing) {
+      throw new TypeError("PrivateConstructor is not constructable");
+    }
+    Player.#isInternalConstructing = false;
+
     this.player = createAudioPlayer({
       behaviors: {
         // Default behavior is to pause when there are no active subscribers for an audio player.
@@ -17,6 +25,7 @@ class Player {
 
   static getInstance() {
     if (!this.instance) {
+      Player.#isInternalConstructing = true;
       this.instance = new Player();
     }
     return this.instance;
@@ -59,5 +68,4 @@ class Player {
   }
 }
 
-// Singleton pattern
 module.exports = Player;
