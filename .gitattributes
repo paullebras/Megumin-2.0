@@ -9,3 +9,9 @@
 *.ts text eol=lf
 *.tsx text eol=lf
 *.json text eol=lf
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
+*.mp3 binary
+*.wav binary
