@@ -23,11 +23,13 @@ module.exports = {
       await audioPlayer.stopPlayer();
       VoiceControl.queue.shift();
       VoiceControl.frontQueue.shift();
+      VoiceControl.durationQueue.shift();
       return { content: '`Queue is now empty.` ✅' };
     }
     if (VoiceControl.queue.length > 1) {
       VoiceControl.queue.shift();
       VoiceControl.frontQueue.shift();
+      VoiceControl.durationQueue.shift();
       //  TODO handle other cases than youtube (probably do as in play and handle source specificities in dedicaded modules)
       VoiceControl.source = voiceUtils.getSourceFromUrl(VoiceControl.queue[0]);
       const url = VoiceControl.queue[0];
