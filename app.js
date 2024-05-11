@@ -57,6 +57,7 @@ audioPlayer.player.on(AudioPlayerStatus.Idle, async () => {
   ) {
     VoiceControl.queue.shift();
     VoiceControl.frontQueue.shift();
+    VoiceControl.durationQueue.shift();
   }
   if (VoiceControl.queue.length >= 1) {
     VoiceControl.source = 'youtube';
