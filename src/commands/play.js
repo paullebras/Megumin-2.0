@@ -9,26 +9,21 @@ const Player = require('../core/Player');
 
 const audioPlayer = Player.getInstance();
 
-function createPlayEmbed(videoInfo, videoUrl, username) {
-  const title = videoInfo.videoDetails.title;
-  const channel = videoInfo.videoDetails.author.name;
-  const durationSeconds = videoInfo.videoDetails.lengthSeconds;
-  const video_id = videoUrl.split('=')[1];
-  const thumbnail = `https://i.ytimg.com/vi/${video_id}/default.jpg`;
-  const playEmbed = new EmbedBuilder()
+function createPlayEmbed(videoDetails, username) {
+  const { title, video_url, author, lengthSeconds, thumbnails } = videoDetails;
+
+  return new EmbedBuilder()
     .setColor(0x000000)
     .setTitle(title)
-    .setURL(videoUrl)
-    .setDescription(channel)
-    .setThumbnail(thumbnail)
+    .setURL(video_url)
+    .setDescription(author.name)
+    .setThumbnail(thumbnails[0].url)
     .addFields({
       name: 'Durée : ',
-      value: utils.secondsToHms(durationSeconds),
+      value: utils.secondsToHms(lengthSeconds),
       inline: true,
     })
     .addFields({ name: 'Demandée par : ', value: username, inline: true });
-
-  return playEmbed;
 }
 
 const name = 'play';
@@ -126,8 +121,7 @@ module.exports = {
         throw error;
       });
     const playEmbed = createPlayEmbed(
-      videoInfo,
-      url,
+      videoInfo.videoDetails,
       interaction.member.user.username,
     );
     return { embeds: [playEmbed] };
