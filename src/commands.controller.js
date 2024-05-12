@@ -70,6 +70,11 @@ async function commandsController(
           .get('anison')
           .execute(fakeInteraction, VoiceControl);
         break;
+      case 'avatar':
+        response = await commands
+          .get('avatar')
+          .execute(fakeInteraction, args);
+        break;
       case 'clear':
         response = await commands
           .get('clear')
