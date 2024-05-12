@@ -9,21 +9,46 @@ const Player = require('../core/Player');
 
 const audioPlayer = Player.getInstance();
 
+function createAddToQueueEmbed(videoDetails) {
+  const { title, video_url, author, lengthSeconds, thumbnails } = videoDetails;
+
+  return new EmbedBuilder()
+    .setAuthor({ name: '✅ Added to queue' })
+    .setColor(0x000000)
+    .setTitle(title)
+    .setURL(video_url)
+    .setThumbnail(thumbnails[0].url)
+    .addFields({
+      name: 'Durée',
+      value: utils.secondsToHms(lengthSeconds),
+      inline: true,
+    })
+    .addFields({
+      name: 'Chaîne',
+      value: `[${author.name}](${author.channel_url})`,
+      inline: true,
+    });
+}
+
 function createPlayEmbed(videoDetails, username) {
   const { title, video_url, author, lengthSeconds, thumbnails } = videoDetails;
 
   return new EmbedBuilder()
+    .setAuthor({
+      name: author.name,
+      url: author.channel_url,
+      iconURL: author.thumbnails[0].url,
+    })
     .setColor(0x000000)
     .setTitle(title)
     .setURL(video_url)
-    .setDescription(author.name)
     .setThumbnail(thumbnails[0].url)
     .addFields({
-      name: 'Durée : ',
+      name: 'Durée ',
       value: utils.secondsToHms(lengthSeconds),
       inline: true,
     })
-    .addFields({ name: 'Demandée par : ', value: username, inline: true });
+    .addFields({ name: 'Demandée par ', value: username, inline: true });
 }
 
 const name = 'play';
@@ -104,7 +129,10 @@ module.exports = {
     const playerStatus = audioPlayer.player.state.status;
     const { Playing, Paused } = AudioPlayerStatus;
     if (playerStatus === Playing || playerStatus === Paused) {
-      return { content: '`Added to the playlist` ✅' };
+      const addedToQueueEmbed = createAddToQueueEmbed(
+        videoInfo.videoDetails
+      );
+      return { embeds: [addedToQueueEmbed] };
     }
 
     const channelToJoin = interaction.member.voice.channel;
