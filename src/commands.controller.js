@@ -4,7 +4,6 @@ const voiceUtils = require('./utils/voiceUtils');
 async function handleError(interaction, command, args, message, error) {
   const errorEmbed = utils.createErrorEmbed(error);
   const errorResponse = {
-    content: `\`${command} ${args || ''}\``,
     embeds: [errorEmbed] /* , ephemeral: true */,
   };
   if (interaction) {
