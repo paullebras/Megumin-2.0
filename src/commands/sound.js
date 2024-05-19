@@ -30,12 +30,18 @@ module.exports = {
         : Path.join('src', 'music');
     const files = readdirSync(folder);
     const normalizedFiles = files.map((x) => x.toLowerCase());
+    const truncatedFiles = normalizedFiles.map((file) =>
+      file.substring(file.indexOf('_') + 1),
+    );
 
     let index;
     if (args[0] === 'random') {
       index = Math.floor(Math.random() * normalizedFiles.length);
     } else {
       index = normalizedFiles.indexOf(`${args[0].toLowerCase()}.mp3`);
+      if (index === -1) {
+        index = truncatedFiles.indexOf(`${args[0].toLowerCase()}.mp3`);
+      }
     }
     if (index === -1) {
       throw new Error(`File '${args}' does not exist`);
