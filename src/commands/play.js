@@ -129,9 +129,7 @@ module.exports = {
     const playerStatus = audioPlayer.player.state.status;
     const { Playing, Paused } = AudioPlayerStatus;
     if (playerStatus === Playing || playerStatus === Paused) {
-      const addedToQueueEmbed = createAddToQueueEmbed(
-        videoInfo.videoDetails
-      );
+      const addedToQueueEmbed = createAddToQueueEmbed(videoInfo.videoDetails);
       return { embeds: [addedToQueueEmbed] };
     }
 

@@ -1,8 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 const name = 'avatar';
-const description =
-  "Affiche l'avatar d'un utilisateur";
+const description = "Affiche l'avatar d'un utilisateur";
 const inputDescription = '@<user> (optionnel)';
 
 module.exports = {
