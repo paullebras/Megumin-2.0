@@ -47,7 +47,7 @@ module.exports = {
     };
 
     // We sort all sounds.
-    const sounds = readdirSync(Path.join('src', 'soundboard')).map(
+    const sounds = readdirSync(Path.join('audio-resources', 'soundboard')).map(
       (sound) => sound.split('.')[0],
     );
 
@@ -77,7 +77,7 @@ module.exports = {
 
     // TODO make this work so that it only considers files even if there is no folder here (supposedly)
     // TODO handle case where only one category can go over the 2000 characters limit for a single message.
-    /* const soundsFiles = fs.readdirSync(Path.join('src', 'soundboard'), { withFileTypes: true }).map(sound => sound.name.split('.')[0]); */
+    /* const soundsFiles = fs.readdirSync(Path.join('audio-resources', 'soundboard'), { withFileTypes: true }).map(sound => sound.name.split('.')[0]); */
     // User specified a category => We provide the list of all the audio files belonging to this category
     if (args.length) {
       const key = args[0];

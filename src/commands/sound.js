@@ -26,8 +26,8 @@ module.exports = {
     const currentChannel = await interaction.voiceChannel;
     const folder =
       type === 'sound'
-        ? Path.join('src', 'soundboard')
-        : Path.join('src', 'music');
+        ? Path.join('audio-resources', 'soundboard')
+        : Path.join('audio-resources', 'music');
     const files = readdirSync(folder);
     const normalizedFiles = files.map((x) =>
       x.toLowerCase().split('.').slice(0, -1).join('.'),
