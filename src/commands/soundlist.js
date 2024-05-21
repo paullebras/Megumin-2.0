@@ -35,7 +35,7 @@ module.exports = {
       ks: 'Konosuba',
       lol: 'League of Legends',
       lotr: 'Lord of the Rings',
-      misc: 'Divers',
+      div: 'Divers',
       mk: 'Mario Kart',
       moz: 'Mozinor',
       ow: 'Overwatch',
@@ -55,14 +55,23 @@ module.exports = {
     for (const cat in categoriesIndex) {
       sortedSounds[cat] = [];
     }
-    sortedSounds['misc'] = [];
 
     for (const sound of sounds) {
-      const temp = sound.split('_');
       if (sound.includes('_')) {
-        sortedSounds[temp[0]].push(temp[1]);
+        const [categoryPrefix, soundName] = sound.split('_');
+        if (
+          Object.prototype.hasOwnProperty.call(categoriesIndex, categoryPrefix)
+        ) {
+          sortedSounds[categoryPrefix].push(soundName);
+        } else {
+          throw new Error(
+            `Désolé, le préfix '${categoryPrefix}' n'est pas répertorié`,
+          );
+        }
       } else {
-        sortedSounds['misc'].push(temp[0]);
+        console.warn(
+          `sound ${sound} does not respect naming convention prefix_name.mp3`,
+        );
       }
     }
 
@@ -108,7 +117,7 @@ module.exports = {
         lineContent = '';
         lineNumber = 0;
       }
-      lineContent += `# ${categoriesIndex[key]}\n`;
+      lineContent += `# ${categoriesIndex[key]} (${key})\n`;
       let columnNumber = 1;
       sortedSounds[key].forEach((sound) => {
         const numberOfSpaces = columnWidth - sound.length;
