@@ -29,7 +29,9 @@ module.exports = {
         ? Path.join('src', 'soundboard')
         : Path.join('src', 'music');
     const files = readdirSync(folder);
-    const normalizedFiles = files.map((x) => x.toLowerCase());
+    const normalizedFiles = files.map((x) =>
+      x.toLowerCase().split('.').slice(0, -1).join('.'),
+    );
     const truncatedFiles = normalizedFiles.map((file) =>
       file.substring(file.indexOf('_') + 1),
     );
@@ -38,9 +40,9 @@ module.exports = {
     if (args[0] === 'random') {
       index = Math.floor(Math.random() * normalizedFiles.length);
     } else {
-      index = normalizedFiles.indexOf(`${args[0].toLowerCase()}.mp3`);
+      index = normalizedFiles.indexOf(`${args[0].toLowerCase()}`);
       if (index === -1) {
-        index = truncatedFiles.indexOf(`${args[0].toLowerCase()}.mp3`);
+        index = truncatedFiles.indexOf(`${args[0].toLowerCase()}`);
       }
     }
     if (index === -1) {
