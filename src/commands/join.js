@@ -18,14 +18,18 @@ module.exports = {
       option.setName('input').setDescription(inputDescription),
     ),
   async execute(interaction, args) {
-    let channelToJoin;
     const currentChannel = await interaction.voiceChannel;
 
     // find specified voice channel OR user current voice channel
+    let channelToJoin;
     if (args.length > 0) {
-      channelToJoin = interaction.guild.channels.cache.find(
-        (element) =>
-          element.name.includes(args[0]) || element.id.includes(args[0]),
+      const voiceChannels = interaction.guild.channels.cache.filter(
+        (channel) => channel.type === 2,
+      );
+      channelToJoin = voiceChannels.find(
+        (voiceChannel) =>
+          voiceChannel.name.toLowerCase().includes(args[0].toLowerCase()) ||
+          voiceChannel.id.includes(args[0]),
       );
       if (channelToJoin === undefined) {
         throw `Désolée, le canal vocal **${args[0]}** n'existe pas.`;
