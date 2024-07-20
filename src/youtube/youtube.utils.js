@@ -1,5 +1,5 @@
 const services = require('./youtube.service.js');
-const ytdl = require('ytdl-core');
+const ytdl = require("@distube/ytdl-core");
 
 module.exports = {
   getYoutubeUrl: async function (args) {

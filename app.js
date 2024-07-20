@@ -10,7 +10,7 @@ const {
 } = require('discord.js');
 const { createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 const voiceUtils = require('./src/utils/voiceUtils');
-const ytdl = require('ytdl-core');
+const ytdl = require("@distube/ytdl-core");
 const audioParams = require('./config/audioParams');
 const Player = require('./src/core/Player');
 const commandsController = require('./src/commands.controller');
