@@ -1,7 +1,7 @@
 const voiceUtils = require('../utils/voiceUtils.js');
 const audioParams = require('../../config/audioParams.js');
 const { createAudioResource } = require('@discordjs/voice');
-const ytdl = require('ytdl-core');
+const ytdl = require("@distube/ytdl-core");
 const Player = require('../core/Player');
 const { SlashCommandBuilder } = require('discord.js');
 
