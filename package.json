@@ -25,12 +25,12 @@
   "homepage": "https://github.com/Sanguor/Megumin-2.0#readme",
   "dependencies": {
     "@discordjs/voice": "^0.17.0",
+    "@distube/ytdl-core": "4.13.5",
     "axios": "^1.6.8",
     "discord.js": "^14.15.2",
     "dotenv": "^16.4.5",
     "ffmpeg-static": "^5.2.0",
-    "sodium": "^3.0.2",
-    "ytdl-core": "^4.11.5"
+    "sodium": "^3.0.2"
   },
   "devDependencies": {
     "eslint": "^9.2.0",

@@ -4,7 +4,7 @@ const utils = require('../utils/utils.js');
 const youtubeUtils = require('../youtube/youtube.utils.js');
 const { AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const audioParams = require('../../config/audioParams.js');
-const ytdl = require('ytdl-core');
+const ytdl = require("@distube/ytdl-core");
 const Player = require('../core/Player');
 
 const audioPlayer = Player.getInstance();
