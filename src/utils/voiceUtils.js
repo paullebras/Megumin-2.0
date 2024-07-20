@@ -1,4 +1,3 @@
-// const ytdl = require('ytdl-core');
 const {
   joinVoiceChannel,
   getVoiceConnection,
