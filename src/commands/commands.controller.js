@@ -1,5 +1,5 @@
-const utils = require('./utils/utils');
-const voiceUtils = require('./utils/voiceUtils');
+const utils = require('../utils/utils');
+const voiceUtils = require('../utils/voiceUtils');
 
 async function handleError(interaction, command, args, message, error) {
   const errorEmbed = utils.createErrorEmbed(error);

@@ -1,6 +1,6 @@
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
-const utils = require('../utils/utils.js');
-const Player = require('../core/Player.js');
+const utils = require('../../utils/utils.js');
+const Player = require('../../core/Player.js');
 
 function createQueueEmbed(
   content,

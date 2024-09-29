@@ -1,4 +1,4 @@
-const youtubeService = require('../youtube/youtube.service.js');
+const youtubeService = require('../../youtube/youtube.service.js');
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs').promises; // Import fs.promises for async file operations
 
