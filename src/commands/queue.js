@@ -1,5 +1,6 @@
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 const utils = require('../utils/utils.js');
+const Player = require('../core/Player.js');
 
 function createQueueEmbed(
   content,
@@ -57,8 +58,9 @@ module.exports = {
     .addStringOption((option) =>
       option.setName('input').setDescription(inputDescription),
     ),
-  async execute(args, VoiceControl) {
-    if (!VoiceControl.frontQueue.length) {
+  async execute(args) {
+    const audioPlayer = Player.getInstance();
+    if (!audioPlayer.voiceControl.frontQueue.length) {
       const emptyQueuInfoEmbed = utils.createInfoEmbed(
         "Il n'y a aucune vidéo en attente de lecture.",
       );
@@ -75,7 +77,7 @@ module.exports = {
     // TODO Handle play with no args if songs are still in queue ?
     // TODO find how to use local images in embed : https://stackoverflow.com/questions/51199950/how-do-i-use-a-local-image-on-a-discord-js-rich-embed
     let queue = '\u200b\n**EN COURS : **\n\n';
-    /* VoiceControl.queue = [
+    /* audioPlayer.voiceControl.queue = [
             'https://www.youtube.com/watch?v=IAGJ8lYl_5E',
             'https://www.youtube.com/watch?v=kyULO1HILkE',
             'https://www.youtube.com/watch?v=_sLHf38gY_4',
@@ -89,7 +91,7 @@ module.exports = {
             'https://www.youtube.com/watch?v=6MIZDiAbveQ',
             'https://www.youtube.com/watch?v=iiIjY7WzenA',
         ];
-        VoiceControl.frontQueue = [
+        audioPlayer.voiceControl.frontQueue = [
             '【ASMR】 Fluffy ASMR to heal your soul ♡ Ear cleaning & positive affirmations',
             'いじめっ子Bully （Lofi Ver. Instrumental）',
             '[Longmix] Final Fantasy X - Wandering Flames',
@@ -104,7 +106,7 @@ module.exports = {
             '【ASMR】 Tingly Tapping & Onomatopoeia ♡ Soft Whispering',
         ];
 
-        VoiceControl.durationQueue = [
+        audioPlayer.voiceControl.durationQueue = [
             '3644',
             '334',
             '1821',
@@ -119,26 +121,28 @@ module.exports = {
             '3780',
         ]; */
 
-    const numberOfPages = Math.ceil(VoiceControl.frontQueue.length / 10);
+    const numberOfPages = Math.ceil(
+      audioPlayer.voiceControl.frontQueue.length / 10,
+    );
 
     const startIndex = (requiredPage - 1) * 10 + 1;
     const endIndex = startIndex + 9;
 
-    queue += `[${VoiceControl.frontQueue[0]}](${VoiceControl.queue[0]})\n`;
+    queue += `[${audioPlayer.voiceControl.frontQueue[0]}](${audioPlayer.voiceControl.queue[0]})\n`;
     queue += '\n\n**A SUIVRE : **\n\n';
     for (let index = startIndex; index <= endIndex; index++) {
-      if (VoiceControl.frontQueue[index]) {
-        queue += `${index}. [${VoiceControl.frontQueue[index]}](${VoiceControl.queue[index]})\n\n`;
+      if (audioPlayer.voiceControl.frontQueue[index]) {
+        queue += `${index}. [${audioPlayer.voiceControl.frontQueue[index]}](${audioPlayer.voiceControl.queue[index]})\n\n`;
       }
     }
-    // const currentSong = `[${VoiceControl.frontQueue[0]}](${VoiceControl.queue[0]})`;
+    // const currentSong = `[${audioPlayer.voiceControl.frontQueue[0]}](${audioPlayer.voiceControl.queue[0]})`;
     const totalDurationHms = await calculateTotalQueueDuration(
-      VoiceControl.durationQueue,
+      audioPlayer.voiceControl.durationQueue,
     );
     const queueEmbed = createQueueEmbed(
       queue,
       totalDurationHms,
-      VoiceControl.frontQueue.length.toString(),
+      audioPlayer.voiceControl.frontQueue.length.toString(),
       requiredPage.toString(),
       numberOfPages.toString(),
     );

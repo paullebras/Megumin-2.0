@@ -24,11 +24,7 @@ async function handleError(interaction, command, args, message, error) {
   }
 }
 
-async function commandsController(
-  VoiceControl,
-  message = null,
-  interaction = null,
-) {
+async function commandsController(message = null, interaction = null) {
   let command;
   let args;
   const fakeInteraction = {};
@@ -65,17 +61,13 @@ async function commandsController(
     let response;
     switch (command) {
       case 'anison':
-        response = await commands
-          .get('anison')
-          .execute(fakeInteraction, VoiceControl);
+        response = await commands.get('anison').execute(fakeInteraction);
         break;
       case 'avatar':
         response = await commands.get('avatar').execute(fakeInteraction, args);
         break;
       case 'clear':
-        response = await commands
-          .get('clear')
-          .execute(fakeInteraction, VoiceControl);
+        response = await commands.get('clear').execute(fakeInteraction);
         break;
       case 'help':
         response = await commands.get('help').execute(fakeInteraction, args);
@@ -84,14 +76,12 @@ async function commandsController(
         response = await commands.get('join').execute(fakeInteraction, args);
         break;
       case 'leave':
-        response = await commands
-          .get('leave')
-          .execute(fakeInteraction, VoiceControl);
+        response = await commands.get('leave').execute(fakeInteraction);
         break;
       case 'music':
         response = await commands
           .get('sound')
-          .execute(fakeInteraction, args, 'music', VoiceControl);
+          .execute(fakeInteraction, args, 'music');
         break;
       case 'pause':
         response = await commands.get('pause').execute();
@@ -100,12 +90,10 @@ async function commandsController(
         response = await commands.get('ping').execute(fakeInteraction);
         break;
       case 'play':
-        response = await commands
-          .get('play')
-          .execute(fakeInteraction, args, VoiceControl);
+        response = await commands.get('play').execute(fakeInteraction, args);
         break;
       case 'queue':
-        response = await commands.get('queue').execute(args, VoiceControl);
+        response = await commands.get('queue').execute(args);
         break;
       case 'restart':
         response = await commands.get('restart').execute();
@@ -125,12 +113,12 @@ async function commandsController(
         response = await commands.get('shutdown').execute();
         break;
       case 'skip':
-        response = await commands.get('skip').execute(VoiceControl);
+        response = await commands.get('skip').execute();
         break;
       case 'sound':
         response = await commands
           .get('sound')
-          .execute(fakeInteraction, args, 'sound', VoiceControl);
+          .execute(fakeInteraction, args, 'sound');
         break;
       case 'soundlist':
         response = await commands

@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const Player = require('../core/Player');
 
 const name = 'clear';
 const description = "Nettoie la file d'attente.";
@@ -9,12 +10,13 @@ module.exports = {
   usage: 'clear',
   type: ':notes: Music',
   data: new SlashCommandBuilder().setName(name).setDescription(description),
-  execute(interaction, VoiceControl) {
-    if (!VoiceControl.frontQueue.length) {
+  execute(interaction) {
+    const audioPlayer = Player.getInstance();
+    if (!audioPlayer.voiceControl.frontQueue.length) {
       interaction.channel.send('La queue est déjà vide.');
     } else {
-      VoiceControl.queue = [];
-      VoiceControl.frontQueue = [];
+      audioPlayer.voiceControl.queue = [];
+      audioPlayer.voiceControl.frontQueue = [];
     }
     return { content: '`Queue cleared` ✅' };
   },
