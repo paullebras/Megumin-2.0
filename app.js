@@ -8,11 +8,6 @@ const {
   GatewayIntentBits,
   Events,
 } = require('discord.js');
-const { createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
-const voiceUtils = require('./src/utils/voiceUtils');
-const ytdl = require("@distube/ytdl-core");
-const audioParams = require('./config/audioParams');
-const Player = require('./src/core/Player');
 const commandsController = require('./src/commands.controller');
 
 const intents = new IntentsBitField().add(
@@ -41,49 +36,9 @@ client.once(Events.ClientReady, (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
-const VoiceControl = {
-  queue: [],
-  frontQueue: [],
-  durationQueue: [],
-  source: '',
-};
-const audioPlayer = Player.getInstance();
-
-// TODO - Move player listeners to Player constructor ? It requires to have acess to VoiceControl inside of player
-audioPlayer.player.on(AudioPlayerStatus.Idle, async () => {
-  if (
-    VoiceControl.source !== 'soundboard' &&
-    VoiceControl.source !== 'anison'
-  ) {
-    VoiceControl.queue.shift();
-    VoiceControl.frontQueue.shift();
-    VoiceControl.durationQueue.shift();
-  }
-  if (VoiceControl.queue.length >= 1) {
-    VoiceControl.source = 'youtube';
-    const url = VoiceControl.queue[0];
-    if (url) {
-      const audioResource = createAudioResource(ytdl(url, audioParams));
-      await voiceUtils
-        .playAudioResource(audioResource, VoiceControl)
-        .catch((error) => {
-          throw error;
-        });
-    }
-  }
-});
-
-audioPlayer.player.on('stateChange', (oldState, newState) => {
-  console.log(`Audio player : ${oldState.status} => ${newState.status}`);
-});
-audioPlayer.player.on('error', (error) => {
-  console.error('Audio player emitted an error:', error);
-});
-
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
-
-  commandsController(VoiceControl, null, interaction);
+  commandsController(null, interaction);
 });
 
 client.on(Events.MessageCreate, (message) => {
@@ -93,7 +48,7 @@ client.on(Events.MessageCreate, (message) => {
     // }
     return;
   }
-  commandsController(VoiceControl, message, null);
+  commandsController(message, null);
 });
 
 client.login(process.env.DISCORD_TOKEN);
