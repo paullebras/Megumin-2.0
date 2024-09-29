@@ -1,4 +1,4 @@
-const voiceUtils = require('../utils/voiceUtils.js');
+const voiceUtils = require('../../utils/voiceUtils.js');
 const { SlashCommandBuilder } = require('discord.js');
 
 const name = 'join';

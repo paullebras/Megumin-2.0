@@ -1,11 +1,11 @@
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
-const voiceUtils = require('../utils/voiceUtils.js');
-const utils = require('../utils/utils.js');
-const youtubeUtils = require('../youtube/youtube.utils.js');
+const voiceUtils = require('../../utils/voiceUtils.js');
+const utils = require('../../utils/utils.js');
+const youtubeUtils = require('../../youtube/youtube.utils.js');
 const { AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
-const audioParams = require('../../config/audioParams.js');
+const audioParams = require('../../../config/audioParams.js');
 const ytdl = require('@distube/ytdl-core');
-const Player = require('../core/Player');
+const Player = require('../../core/Player');
 
 function createAddToQueueEmbed(videoDetails) {
   const { title, video_url, author, lengthSeconds, thumbnails } = videoDetails;

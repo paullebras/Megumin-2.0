@@ -5,10 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "watch": "nodemon server.js",
-    "deploy-commands": "node .\\scripts\\deploy-commands.js",
-    "delete-commands": "node .\\scripts\\delete-commands.js",
+    "start": "node ./src/server.js",
+    "watch": "nodemon ./src/server.js",
+    "deploy-commands": "node ./scripts/deploy-commands.js",
+    "delete-commands": "node ./scripts/delete-commands.js",
     "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
     "lint": "eslint ."
   },

@@ -1,7 +1,7 @@
-const voiceUtils = require('../utils/voiceUtils.js');
+const voiceUtils = require('../../utils/voiceUtils.js');
 const { createAudioResource } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('discord.js');
-const Player = require('../core/Player.js');
+const Player = require('../../core/Player.js');
 
 const name = 'anison';
 const description = 'Joue la webradio ANISON.FM : https://en.anison.fm/.';
