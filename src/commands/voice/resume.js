@@ -1,4 +1,4 @@
-const Player = require('../core/Player');
+const Player = require('../../core/Player');
 const { SlashCommandBuilder } = require('discord.js');
 
 const name = 'resume';

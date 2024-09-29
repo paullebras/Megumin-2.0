@@ -1,7 +1,7 @@
-const voiceUtils = require('../utils/voiceUtils.js');
+const voiceUtils = require('../../utils/voiceUtils.js');
 const { getVoiceConnection } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('discord.js');
-const Player = require('../core/Player.js');
+const Player = require('../../core/Player.js');
 
 const name = 'leave';
 const description = 'Quitte le salon vocal actuel.';

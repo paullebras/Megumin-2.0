@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const Player = require('../core/Player');
+const Player = require('../../core/Player');
 
 const name = 'clear';
 const description = "Nettoie la file d'attente.";

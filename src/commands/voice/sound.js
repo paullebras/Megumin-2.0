@@ -1,9 +1,9 @@
-const voiceUtils = require('../utils/voiceUtils.js');
+const voiceUtils = require('../../utils/voiceUtils.js');
 const { readdirSync, createReadStream } = require('fs');
 const Path = require('path');
 const { createAudioResource } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('discord.js');
-const Player = require('../core/Player.js');
+const Player = require('../../core/Player.js');
 
 const name = 'sound';
 const description =

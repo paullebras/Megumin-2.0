@@ -1,6 +1,6 @@
 require('dotenv').config();
-const { readdirSync } = require('fs');
-const Path = require('path');
+const { readdirSync, statSync } = require('fs');
+const { join, resolve } = require('path');
 const {
   Client,
   Collection,
@@ -8,7 +8,7 @@ const {
   GatewayIntentBits,
   Events,
 } = require('discord.js');
-const commandsController = require('./src/commands.controller');
+const commandsController = require('./commands/commands.controller');
 
 const intents = new IntentsBitField().add(
   GatewayIntentBits.Guilds,
@@ -22,14 +22,36 @@ const client = new Client({ intents: intents });
 
 // @ts-ignore
 client.commands = new Collection();
-const commandFiles = readdirSync(Path.join('src', 'commands')).filter((file) =>
-  file.endsWith('.js'),
-);
 
+const commandsDir = resolve('src', 'commands');
+
+const commandDirectories = readdirSync(commandsDir).filter((item) => {
+  const itemPath = join(commandsDir, item);
+  return statSync(itemPath).isDirectory();
+});
+
+const commandFiles = commandDirectories.flatMap((dir) => {
+  const dirPath = join(commandsDir, dir);
+  return readdirSync(dirPath)
+    .filter((file) => file.endsWith('.js'))
+    .map((file) => {
+      return join(dirPath, file);
+    });
+});
+
+// Load all command files and add them to the commands collection
 for (const file of commandFiles) {
-  const command = require(Path.join(__dirname, 'src', 'commands', file));
-  // @ts-ignore
-  client.commands.set(command.name, command);
+  try {
+    const command = require(file);
+    if (command && command.name) {
+      // @ts-ignore
+      client.commands.set(command.name, command);
+    } else {
+      console.warn(`Warning: ${file} is missing a valid 'name' property.`);
+    }
+  } catch (error) {
+    console.error(`Error loading command ${file}:`, error);
+  }
 }
 
 client.once(Events.ClientReady, (readyClient) => {

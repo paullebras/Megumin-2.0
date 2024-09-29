@@ -1,4 +1,4 @@
-const utils = require('../utils/utils.js');
+const utils = require('../../utils/utils.js');
 const { readdirSync } = require('fs');
 const Path = require('path');
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
@@ -12,7 +12,7 @@ module.exports = {
   name: name,
   description: description,
   usage: `${name} ${inputDescription}`,
-  type: ':wrench: Tools',
+  type: ':notes: Music',
   data: new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
