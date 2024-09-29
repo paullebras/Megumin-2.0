@@ -4,10 +4,8 @@ const utils = require('../utils/utils.js');
 const youtubeUtils = require('../youtube/youtube.utils.js');
 const { AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const audioParams = require('../../config/audioParams.js');
-const ytdl = require("@distube/ytdl-core");
+const ytdl = require('@distube/ytdl-core');
 const Player = require('../core/Player');
-
-const audioPlayer = Player.getInstance();
 
 function createAddToQueueEmbed(videoDetails) {
   const { title, video_url, author, lengthSeconds, thumbnails } = videoDetails;
@@ -70,7 +68,7 @@ module.exports = {
 
   // TODO handle case where playback is stopped, curren song stays in queue but next play will play the asked song since isPlaying = false and queue is fucked
   // example where this happens : queue has some elements and bot is playing one of them => leave => play
-  async execute(interaction, args, VoiceControl) {
+  async execute(interaction, args) {
     // TODO use writeStream ?
     // const fileName = info.videoDetails.title.replace(/[^a-z0-9-]/gi, '_');
     // let container = format.container;
@@ -83,53 +81,48 @@ module.exports = {
     }
 
     let url;
-    let videoInfo;
+    let videoDetails;
 
+    const audioPlayer = Player.getInstance();
     if (args[0].includes('http://') || args[0].includes('https://')) {
       url = args[0];
-      VoiceControl.source = voiceUtils.getSourceFromUrl(url);
+      audioPlayer.voiceControl.source = voiceUtils.getSourceFromUrl(url);
     }
     // si les arguments ne comportent pas d'url, on considère qu'il s'agit d'une recherche de vidéo youtube par mot clef
     else {
       url = await youtubeUtils.getYoutubeUrl(args);
       console.log('url =', url);
-      VoiceControl.source = 'youtube';
+      audioPlayer.voiceControl.source = 'youtube';
     }
 
-    let duration;
-    let title;
-    switch (VoiceControl.source) {
+    switch (audioPlayer.voiceControl.source) {
       case 'youtube':
-        videoInfo = await youtubeUtils.getYoutubeVideoInfos(url);
-        duration = videoInfo.videoDetails.lengthSeconds;
-        title = videoInfo.videoDetails.title;
+        ({ videoDetails } = await youtubeUtils.getYoutubeVideoInfos(url));
         break;
       case 'twitch':
         throw new Error(
           "Désolé, la lecture de contenus Twitch est prévue mais n'a pas encore été implémentée.",
         );
-      default: {
+      default:
         throw new Error(
           'Désolé, je ne gère pas la lecture de contenus extérieurs à Youtube et Twitch. Vous pouvez en faire la demande dans #megumin-request',
         );
-      }
     }
 
-    if (!videoInfo) {
+    if (!videoDetails) {
       throw 'Désolé, je ne parviens pas à récupérer les informations de ce contenu';
     }
 
-    VoiceControl = voiceUtils.addElementToQueue(
-      VoiceControl,
+    audioPlayer.addElementToQueue(
       url,
-      title,
-      duration,
+      videoDetails.title,
+      videoDetails.lengthSeconds,
     );
 
     const playerStatus = audioPlayer.player.state.status;
     const { Playing, Paused } = AudioPlayerStatus;
     if (playerStatus === Playing || playerStatus === Paused) {
-      const addedToQueueEmbed = createAddToQueueEmbed(videoInfo.videoDetails);
+      const addedToQueueEmbed = createAddToQueueEmbed(videoDetails);
       return { embeds: [addedToQueueEmbed] };
     }
 
@@ -141,13 +134,11 @@ module.exports = {
     });
 
     const audioResource = createAudioResource(ytdl(url, audioParams));
-    await voiceUtils
-      .playAudioResource(audioResource, VoiceControl)
-      .catch((error) => {
-        throw error;
-      });
+    await audioPlayer.playAudioResource(audioResource).catch((error) => {
+      throw error;
+    });
     const playEmbed = createPlayEmbed(
-      videoInfo.videoDetails,
+      videoDetails,
       interaction.member.user.username,
     );
     return { embeds: [playEmbed] };

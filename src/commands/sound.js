@@ -3,6 +3,7 @@ const { readdirSync, createReadStream } = require('fs');
 const Path = require('path');
 const { createAudioResource } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('discord.js');
+const Player = require('../core/Player.js');
 
 const name = 'sound';
 const description =
@@ -21,7 +22,7 @@ module.exports = {
     .addStringOption((option) =>
       option.setName('input').setDescription(inputDescription),
     ),
-  async execute(interaction, args, type, VoiceControl) {
+  async execute(interaction, args, type) {
     const channelToJoin = interaction.member.voice.channel;
     const currentChannel = await interaction.voiceChannel;
     const folder =
@@ -54,7 +55,8 @@ module.exports = {
     await voiceUtils.joinVoice(channelToJoin, currentChannel).catch((error) => {
       throw error;
     });
-    VoiceControl.source = 'soundboard';
+    const audioPlayer = Player.getInstance();
+    audioPlayer.voiceControl.source = 'soundboard';
     // start_issue
     // 03/12/2022
     // Using createReadStream should not be needed but there is an issue with discordjs/voice
@@ -62,11 +64,9 @@ module.exports = {
     // original code: const resource = createAudioResource(path);
     const audioResource = createAudioResource(createReadStream(resourcePath));
     // end_issue
-    await voiceUtils
-      .playAudioResource(audioResource, VoiceControl)
-      .catch((error) => {
-        throw error;
-      });
+    await audioPlayer.playAudioResource(audioResource).catch((error) => {
+      throw error;
+    });
 
     return { content: `\`Playing ${resource}\` ✅` };
   },
