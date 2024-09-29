@@ -1,12 +1,4 @@
-const {
-  joinVoiceChannel,
-  getVoiceConnection,
-  entersState,
-} = require('@discordjs/voice');
-const { AudioPlayerStatus } = require('@discordjs/voice');
-const Player = require('../core/Player.js');
-
-const audioPlayer = Player.getInstance();
+const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 
 module.exports = {
   getUserCurrentChannelFromMsg: function (message) {
@@ -47,7 +39,7 @@ module.exports = {
     });
   },
 
-  destroyConnection: function (VoiceControl) {
+  destroyConnection: function (voiceControl) {
     // TODO Do I use the correct way to handle VoiceConnection ? (similar to how I was using isPlaying instead of Player state)
     // https://discordjs.guide/voice/life-cycles.html#subscribing-to-individual-events
     // investigate "VoiceConnection – maintains a network connection to a Discord voice server"
@@ -55,37 +47,11 @@ module.exports = {
       const connection = getVoiceConnection(process.env.SERVER_ID);
       if (connection) {
         connection.destroy();
-        resolve(VoiceControl);
+        resolve(voiceControl);
       } else {
         reject('Je ne suis actuellement connectée à aucun salon vocal.');
       }
     });
-  },
-
-  playAudioResource: function (audioResource, VoiceControl) {
-    return new Promise((resolve) => {
-      const connection = getVoiceConnection(process.env.SERVER_ID);
-      audioPlayer.player.play(audioResource);
-      try {
-        entersState(audioPlayer.player, AudioPlayerStatus.Playing, 5_000);
-        // The player has entered the Playing state within 5 seconds
-        resolve();
-      } catch (error) {
-        // The player has not entered the Playing state and either:
-        // 1) The 'error' event has been emitted and should be handled
-        // 2) 5 seconds have passed
-        console.error(error);
-      }
-      VoiceControl.subscription = connection.subscribe(audioPlayer.player);
-    });
-  },
-
-  addElementToQueue: function (VoiceControl, url, title, duration) {
-    VoiceControl.queue.push(url);
-    VoiceControl.frontQueue.push(title);
-    VoiceControl.durationQueue.push(duration);
-
-    return VoiceControl;
   },
 
   getSourceFromUrl: function (url) {
