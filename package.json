@@ -34,7 +34,7 @@
     "dotenv": "16.4.5",
     "ffmpeg-static": "5.2.0",
     "sodium": "3.0.2",
-    "sodium-native": "4.2.0"
+    "sodium-native": "4.2.1"
   },
   "devDependencies": {
     "eslint": "9.11.1",
