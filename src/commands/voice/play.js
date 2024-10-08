@@ -110,7 +110,7 @@ module.exports = {
     }
 
     if (!videoDetails) {
-      throw 'Désolé, je ne parviens pas à récupérer les informations de cette ressource';
+      throw 'Désolé, je ne parviens pas à récupérer les informations de cette vidéo';
     }
 
     audioPlayer.addElementToQueue(
