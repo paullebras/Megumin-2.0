@@ -22,7 +22,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no opc@141.145.209.102 << 'EOF'
           set -e
-          cd megumin/
+          cd Megumin-2.0//
           git pull origin master
           npm install
           pm2 restart megumin
