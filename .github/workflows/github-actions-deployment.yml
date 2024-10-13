@@ -21,7 +21,8 @@ jobs:
     - name: Deploy to Oracle Cloud
       run: |
         ssh -o StrictHostKeyChecking=no opc@141.145.209.102 << 'EOF'
-          cd megumin/
+          set -e
+          cd megumi/
           git pull origin master
           npm install
           pm2 restart megumin
